@@ -52,7 +52,7 @@ https://erp.INTERNAL-DOMAIN.example/api/v1/public
   "name_en": null,
   "brand": { "id": 12, "name": "Ideal Standard", "slug": "ideal-standard" },
   "category": { "id": 7, "name": "خلاطات", "slug": "mixers" },
-  "manufacturer_sku": "A9623",
+  "code": "PRD-00142",
   "availability": "in_stock",
   "price": 4850.00,
   "price_visibility": true,
@@ -67,12 +67,12 @@ Field rules:
 | Field | Type | Rules |
 |---|---|---|
 | `id` | int | ERP product ID. Stable. Used in URLs. |
-| `slug` | string | URL-safe, generated from name + SKU. May change; `id` is the canonical key. |
+| `slug` | string | URL-safe, generated from name + code. May change; `id` is the canonical key. |
 | `name` | string | Arabic display name. Required, non-empty. |
 | `name_en` | string \| null | Optional Latin name. |
 | `brand` | object \| null | Null allowed but flagged in the data-quality report. |
 | `category` | object \| null | Same as brand. |
-| `manufacturer_sku` | string \| null | Key for the image resolver. Null allowed but flagged. |
+| `code` | string | Public product reference code = ERP internal `products.code` (e.g. `PRD-00142`). Non-null (auto-generated for every product). Shown on the site and used as the key for the image resolver. **Note:** the ERP has no manufacturer SKU column — `code` replaced the former `manufacturer_sku` field (v1.1, يوليو 2026). |
 | `availability` | enum | `in_stock` \| `on_request` \| `out_of_stock` |
 | `price` | decimal \| null | **Must be `null` whenever `price_visibility` is `false`.** Never leak hidden prices. |
 | `price_visibility` | bool | `false` → website shows "اتصل لمعرفة السعر". |
@@ -161,7 +161,7 @@ comparison):**
 - Unify: ة → ه, ى → ي
 - Trim/collapse whitespace
 
-Search matches against: `name`, `name_en`, `manufacturer_sku`, brand name.
+Search matches against: `name`, `name_en`, `code`, brand name.
 Response: paginated envelope of Product list items.
 
 ### 5.6 `GET /health`

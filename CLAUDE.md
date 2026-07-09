@@ -52,8 +52,9 @@ manual content maintenance — all data comes live from the ERP.
 Component `<ProductImage>` resolves in order:
 
 1. `image_url` from the API (ERP-managed image)
-2. Local resolver: `/img/{brandSlug}/{manufacturer_sku}.webp` — a route
+2. Local resolver: `/img/{brandSlug}/{code}.webp` — a route
    handler that checks the local `product-images/` storage folder
+   (`code` = the ERP product code, e.g. `PRD-00142`; the ERP has no SKU)
 3. Branded placeholder (designed, on-token — never a broken image icon)
 
 Adding an image file later must light up automatically with no data change.

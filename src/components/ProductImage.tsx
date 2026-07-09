@@ -5,23 +5,23 @@ import { useState } from "react";
 /**
  * سلسلة صور المنتج (per API_CONTRACT / website-CLAUDE):
  *   1) image_url من الـ API
- *   2) resolver محلي: /img/{brandSlug}/{sku}.webp
+ *   2) resolver محلي: /img/{brandSlug}/{code}.webp
  *   3) placeholder على الهوية (رمز نور القدس على خلفية navy)
  * إضافة ملف صورة لاحقاً "تشتغل" أوتوماتيكياً بدون تغيير بيانات.
  */
 export function ProductImage({
   imageUrl,
   brandSlug,
-  sku,
+  code,
   name,
 }: {
   imageUrl: string | null;
   brandSlug: string | null;
-  sku: string | null;
+  code: string | null;
   name: string;
 }) {
   const candidate =
-    imageUrl ?? (brandSlug && sku ? `/img/${brandSlug}/${sku}.webp` : null);
+    imageUrl ?? (brandSlug && code ? `/img/${brandSlug}/${code}.webp` : null);
   const [failed, setFailed] = useState(false);
   const showReal = Boolean(candidate) && !failed;
 

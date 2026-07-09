@@ -25,7 +25,8 @@ export interface Product {
   name_en: string | null;
   brand: BrandRef | null;
   category: CategoryRef | null;
-  manufacturer_sku: string | null;
+  /** الكود العام = products.code في الـ ERP (مثال PRD-00142). الـ ERP مفيهوش SKU مصنّع. */
+  code: string;
   availability: Availability;
   /** لازم null لما price_visibility = false */
   price: number | null;

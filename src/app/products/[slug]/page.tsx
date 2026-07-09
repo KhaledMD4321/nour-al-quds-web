@@ -60,7 +60,7 @@ export default async function ProductPage({
   if (slug !== canonical) redirect(productHref(product));
 
   const related = await getRelatedProducts(product.related_product_ids);
-  const waMsg = waProductMessage(product.name, product.manufacturer_sku);
+  const waMsg = waProductMessage(product.name, product.code);
 
   // JSON-LD Product schema (offers فقط لو السعر ظاهر — دايماً مخفي هنا)
   const jsonLd = {
@@ -68,7 +68,7 @@ export default async function ProductPage({
     "@type": "Product",
     name: product.name,
     ...(product.brand ? { brand: { "@type": "Brand", name: product.brand.name } } : {}),
-    ...(product.manufacturer_sku ? { sku: product.manufacturer_sku } : {}),
+    sku: product.code,
     ...(product.description ? { description: product.description } : {}),
     ...(product.price_visibility && product.price != null
       ? {
@@ -122,11 +122,9 @@ export default async function ProductPage({
             <Badge availability={product.availability} label={AVAIL_LABEL[product.availability]} />
             <h1>{product.name}</h1>
             <div className="pdp__row">
-              {product.manufacturer_sku && (
-                <span className="pdp__code" dir="ltr">
-                  {product.manufacturer_sku}
-                </span>
-              )}
+              <span className="pdp__code" dir="ltr">
+                {product.code}
+              </span>
               {product.brand?.slug === "nassar" && (
                 <span className="chip-gold">وكيل نصّار الحصري</span>
               )}

@@ -43,7 +43,7 @@ function toListItem(p: ProductDetail): Product {
     name_en: p.name_en,
     brand: p.brand,
     category: p.category,
-    manufacturer_sku: p.manufacturer_sku,
+    code: p.code,
     availability: p.availability,
     price,
     price_visibility: p.price_visibility,
@@ -80,7 +80,7 @@ function mockProducts(params: ProductListParams): Paginated<Product> {
     const q = normalizeArabic(params.q);
     items = items.filter((p) => {
       const haystack = normalizeArabic(
-        [p.name, p.name_en ?? "", p.manufacturer_sku ?? "", p.brand?.name ?? ""].join(" "),
+        [p.name, p.name_en ?? "", p.code, p.brand?.name ?? ""].join(" "),
       );
       return haystack.includes(q);
     });

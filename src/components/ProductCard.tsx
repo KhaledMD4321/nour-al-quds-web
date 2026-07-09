@@ -8,7 +8,7 @@ import { waLink, waProductMessage } from "@/lib/site";
 
 export function ProductCard({ product }: { product: Product }) {
   const href = productHref(product);
-  const wa = waLink(waProductMessage(product.name, product.manufacturer_sku));
+  const wa = waLink(waProductMessage(product.name, product.code));
 
   return (
     <div className="pcard">
@@ -16,7 +16,7 @@ export function ProductCard({ product }: { product: Product }) {
         <ProductImage
           imageUrl={product.image_url}
           brandSlug={product.brand?.slug ?? null}
-          sku={product.manufacturer_sku}
+          code={product.code}
           name={product.name}
         />
         {product.brand && <span className="pcard__brand">{product.brand.name}</span>}
@@ -27,11 +27,9 @@ export function ProductCard({ product }: { product: Product }) {
           {product.name}
         </Link>
         <div className="pcard__meta">
-          {product.manufacturer_sku && (
-            <span className="pcard__code" dir="ltr">
-              {product.manufacturer_sku}
-            </span>
-          )}
+          <span className="pcard__code" dir="ltr">
+            {product.code}
+          </span>
           {product.category && <span>{product.category.name}</span>}
         </div>
         <div className="pcard__foot">
