@@ -5,6 +5,8 @@
 export const site = {
   name: "نور القدس",
   fullName: "نور القدس للأدوات الصحية وأنظمة المياه",
+  // عنوان الموقع للـ SEO (canonical/sitemap/OG) — بدّله بالدومين الحقيقي أو اضبط NEXT_PUBLIC_SITE_URL
+  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://nour-al-quds.example",
   tagline: "المنتج المناسب، بقيمة مناسبة، وتوريد تعتمد عليه.",
   description:
     "شركة متخصصة في تجارة وتوزيع الأدوات الصحية وأنظمة المياه، تخدم بني سويف منذ ٢٠١١. وكيل نصّار الحصري.",

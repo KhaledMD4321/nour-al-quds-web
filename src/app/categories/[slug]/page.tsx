@@ -1,11 +1,9 @@
 import { notFound, redirect } from "next/navigation";
 import type { Metadata } from "next";
-import { getCategory, getCategories, getProducts, getBrands } from "@/lib/erp";
+import { getCategory, getCategories, getProducts } from "@/lib/erp";
 import { parseIdFromParam, categoryHref } from "@/lib/urls";
-import { ProductCard } from "@/components/ProductCard";
 import { Breadcrumb } from "@/components/Breadcrumb";
-import { WaIcon } from "@/components/WaIcon";
-import { site, waLink } from "@/lib/site";
+import { CategoryBrowser } from "@/components/CategoryBrowser";
 
 export const revalidate = 300;
 
@@ -48,10 +46,8 @@ export default async function CategoryPage({
   const canonical = `${category.id}-${category.slug}`;
   if (slug !== canonical) redirect(categoryHref(category));
 
-  const [{ data: products, meta }, brands] = await Promise.all([
-    getProducts({ category_id: id, per_page: 24 }),
-    getBrands(),
-  ]);
+  // كل منتجات الفئة تُرسَل للعميل ويتم فلترتها/ترتيبها هناك (الصفحة تبقى SSG)
+  const { data: products } = await getProducts({ category_id: id, per_page: 1000 });
 
   return (
     <main className="flex-1">
@@ -68,71 +64,13 @@ export default async function CategoryPage({
           <span className="eyebrow">{category.slug}</span>
           <h1>{category.name}</h1>
           <p>
-            تشكيلة {category.name} من نصّار وديما وعلامات موثوقة. اسأل عن السعر والتوافر لأي
-            صنف عبر واتساب.
+            تشكيلة {category.name} من نصّار و EGIC وديما ثيرم. اسأل عن السعر والتوافر لأي صنف
+            عبر واتساب.
           </p>
         </div>
 
-        <div className="catlayout">
-          <aside className="filters">
-            <h5>تصفية النتائج</h5>
-            <div className="fgrp">
-              <div className="fgrp__t">العلامة التجارية</div>
-              {brands.slice(0, 4).map((b) => (
-                <label key={b.id} className="fopt">
-                  <input type="checkbox" /> {b.name}
-                  <span className="ct num">{b.products_count}</span>
-                </label>
-              ))}
-            </div>
-            <div className="fgrp">
-              <div className="fgrp__t">التوافر</div>
-              <label className="fopt">
-                <input type="checkbox" /> متوفر <span className="ct num">72</span>
-              </label>
-              <label className="fopt">
-                <input type="checkbox" /> حسب الطلب <span className="ct num">18</span>
-              </label>
-            </div>
-            <a
-              className="btn btn--wa btn--full btn--sm"
-              style={{ marginTop: 18 }}
-              href={waLink()}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <WaIcon /> لم تجد ما تبحث عنه؟
-            </a>
-          </aside>
-
-          <div>
-            <div className="toolbar">
-              <span style={{ fontSize: 14, color: "var(--text-muted)" }}>
-                عرض <b style={{ color: "var(--ink)" }} className="num">{products.length}</b> من{" "}
-                <span className="num">{meta.total}</span> صنف
-              </span>
-              <select aria-label="ترتيب" defaultValue="newest">
-                <option value="newest">الأحدث</option>
-                <option value="name">حسب الاسم</option>
-              </select>
-            </div>
-
-            {products.length > 0 ? (
-              <div className="prods prods--3">
-                {products.map((p) => (
-                  <ProductCard key={p.id} product={p} />
-                ))}
-              </div>
-            ) : (
-              <div className="empty">
-                <h3>لا توجد منتجات في هذه الفئة حالياً</h3>
-                <p>تواصل معنا عبر واتساب وسنساعدك في الوصول لما تبحث عنه.</p>
-                <a className="btn btn--wa" href={waLink()} target="_blank" rel="noopener noreferrer">
-                  <WaIcon /> تواصل مع {site.name}
-                </a>
-              </div>
-            )}
-          </div>
+        <div style={{ paddingBottom: 60 }}>
+          <CategoryBrowser products={products} />
         </div>
       </div>
     </main>

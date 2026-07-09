@@ -1,8 +1,5 @@
 [
-  { "id": 11, "name": "نصّار", "slug": "nassar", "logo_url": null, "catalog_pdf_url": null, "products_count": 320, "exclusive": true },
-  { "id": 12, "name": "ديما", "slug": "dima", "logo_url": null, "catalog_pdf_url": null, "products_count": 130 },
-  { "id": 13, "name": "PR", "slug": "pr", "logo_url": null, "catalog_pdf_url": null, "products_count": 85 },
-  { "id": 14, "name": "إيديال", "slug": "ideal-standard", "logo_url": null, "catalog_pdf_url": null, "products_count": 90 },
-  { "id": 15, "name": "كيرَفِت", "slug": "keravit", "logo_url": null, "catalog_pdf_url": null, "products_count": 60 },
-  { "id": 16, "name": "كيرول", "slug": "kerol", "logo_url": null, "catalog_pdf_url": null, "products_count": 45 }
+  { "id": 11, "name": "EGIC", "slug": "egic", "logo_url": null, "catalog_pdf_url": null, "products_count": 909 },
+  { "id": 12, "name": "نصّار", "slug": "nassar", "logo_url": null, "catalog_pdf_url": null, "products_count": 428, "exclusive": true },
+  { "id": 13, "name": "ديما ثيرم", "slug": "dima-therm", "logo_url": null, "catalog_pdf_url": null, "products_count": 210 }
 ]
