@@ -1,0 +1,12 @@
+/* ============================================================
+   Nour Al Quds — Design tokens entry point (handoff bundle)
+   Link THIS file (or port the @imported token files) to get the
+   full set of CSS custom properties. These are the canonical
+   design tokens — keep the variable names when porting.
+   ============================================================ */
+@import url('tokens/fonts.css');
+@import url('tokens/colors.css');
+@import url('tokens/typography.css');
+@import url('tokens/spacing.css');
+@import url('tokens/effects.css');
+@import url('tokens/base.css');

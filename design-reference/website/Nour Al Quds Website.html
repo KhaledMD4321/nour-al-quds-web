@@ -1,0 +1,626 @@
+<!-- @dsCard group="Website" viewport="1320x900" name="Website — الموقع الرسمي (Home · Category · Product)" subtitle="Arabic-first RTL catalog & lead-gen site on the final approved identity" -->
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>نور القدس — الأدوات الصحية وأنظمة المياه</title>
+<link rel="icon" type="image/png" href="assets/favicon_256.png">
+<link rel="stylesheet" href="../../styles.css">
+<style>
+/* ============================================================
+   Nour Al Quds — Website (final approved identity)
+   Built on the design-system tokens (styles.css). Page-level
+   layout/components live here. Arabic-first RTL.
+   ============================================================ */
+:root{
+  --maxw:1280px;
+  --gw:28px;                 /* gateway radius */
+  --shadow-card:0 1px 2px rgba(13,27,51,.04), 0 6px 20px -8px rgba(13,27,51,.14);
+  --shadow-lift:0 2px 4px rgba(13,27,51,.05), 0 18px 40px -16px rgba(13,27,51,.28);
+  --shadow-teal:0 10px 26px -10px rgba(21,112,126,.5);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg-page);color:var(--text-body);font-family:var(--font-ui)}
+img{display:block;max-width:100%}
+.wrap{max-width:var(--maxw);margin-inline:auto;padding-inline:clamp(18px,4vw,40px)}
+section{position:relative}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:var(--font-latin);font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--teal-500)}
+.kicker{display:inline-flex;align-items:center;gap:8px;font-size:13.5px;font-weight:700;color:var(--stone-600)}
+h1,h2,h3,h4{margin:0;color:var(--text-strong);line-height:1.12;font-weight:800;letter-spacing:-.01em}
+p{margin:0;text-wrap:pretty}
+.num{font-family:var(--font-mono);font-variant-numeric:tabular-nums}
+
+/* ---------- buttons ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;font-family:var(--font-ui);font-weight:700;font-size:15px;line-height:1;
+  padding:13px 22px;border-radius:11px;border:0;cursor:pointer;text-decoration:none;transition:transform .16s,box-shadow .2s,background .2s,color .2s;white-space:nowrap}
+.btn:hover{text-decoration:none;transform:translateY(-2px)}
+.btn:active{transform:translateY(1px)}
+.btn svg,.btn i{width:18px;height:18px}
+.btn--lg{padding:16px 28px;font-size:16px;border-radius:12px}
+.btn--sm{padding:9px 15px;font-size:13.5px;border-radius:9px}
+.btn--full{width:100%}
+.btn--navy{background:var(--navy-800);color:#fff}
+.btn--navy:hover{background:var(--navy-700)}
+.btn--teal{background:var(--teal-500);color:#fff;box-shadow:var(--shadow-teal)}
+.btn--teal:hover{background:var(--teal-600)}
+.btn--gold{background:var(--stone-500);color:var(--navy-900)}
+.btn--gold:hover{background:var(--stone-600)}
+.btn--outline{background:transparent;color:var(--navy-800);box-shadow:inset 0 0 0 1.6px var(--border-default)}
+.btn--outline:hover{box-shadow:inset 0 0 0 1.6px var(--teal-500);color:var(--teal-600)}
+.btn--ghost{background:transparent;color:var(--navy-700);padding-inline:6px}
+.btn--ghost:hover{color:var(--teal-600)}
+.btn--lighton{background:rgba(255,255,255,.1);color:#fff;box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.28)}
+.btn--lighton:hover{background:rgba(255,255,255,.18)}
+.btn--wa{background:var(--whatsapp);color:#fff}
+.btn--wa:hover{background:var(--whatsapp-dark)}
+
+/* ---------- badges / availability ---------- */
+.badge{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:700;padding:5px 11px;border-radius:999px;line-height:1}
+.badge .d{width:7px;height:7px;border-radius:50%;flex:none}
+.badge--in{background:var(--success-100);color:var(--success-600)} .badge--in .d{background:var(--success-600)}
+.badge--req{background:var(--warning-100);color:var(--warning-600)} .badge--req .d{background:var(--warning-600)}
+.badge--out{background:var(--danger-100);color:var(--danger-600)} .badge--out .d{background:var(--danger-600)}
+.chip-gold{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;color:var(--stone-700);background:var(--stone-100);border:1px solid var(--stone-300);padding:4px 10px;border-radius:999px}
+
+/* ============================================================
+   HEADER
+   ============================================================ */
+.hdr{position:sticky;top:0;z-index:60;background:rgba(246,244,239,.82);backdrop-filter:saturate(1.4) blur(14px);border-bottom:1px solid rgba(13,27,51,.08)}
+.topbar{background:var(--navy-900);color:var(--text-on-navy-muted);font-size:12.5px}
+.topbar .wrap{display:flex;align-items:center;justify-content:space-between;height:38px;gap:18px}
+.topbar a{color:var(--text-on-navy-muted);display:inline-flex;align-items:center;gap:6px;text-decoration:none}
+.topbar a:hover{color:#fff}
+.topbar .sep{opacity:.4;margin-inline:4px}
+.topbar i{width:14px;height:14px}
+.hdr__main{display:flex;align-items:center;gap:24px;height:74px}
+.hdr__logo{display:flex;align-items:center;cursor:pointer}
+.hdr__logo img{height:46px;width:auto}
+.hdr__nav{display:flex;align-items:center;gap:4px;margin-inline-start:8px}
+.hdr__nav a{font-size:15px;font-weight:600;color:var(--navy-800);padding:9px 14px;border-radius:9px;text-decoration:none;transition:.16s}
+.hdr__nav a:hover{background:rgba(13,27,51,.05)}
+.hdr__nav a.on{color:var(--teal-600);background:var(--teal-050)}
+.hdr__search{flex:1;max-width:340px;display:flex;align-items:center;gap:9px;background:#fff;border:1px solid var(--border-default);border-radius:11px;padding:0 14px;height:44px;color:var(--text-muted);transition:.16s}
+.hdr__search:focus-within{border-color:var(--teal-500);box-shadow:0 0 0 3px var(--teal-050)}
+.hdr__search i{width:18px;height:18px;flex:none}
+.hdr__search input{border:0;outline:0;background:transparent;font-family:inherit;font-size:14.5px;color:var(--ink);width:100%}
+.hdr__spacer{flex:1}
+@media(max-width:1080px){.hdr__nav,.hdr__search{display:none}}
+
+/* ============================================================
+   HERO
+   ============================================================ */
+.hero{background:var(--navy-800);color:#fff;overflow:hidden;border-bottom:3px solid var(--stone-500)}
+.hero::before{content:"";position:absolute;inset:0;background:url('assets/pattern-arch.svg') center/520px;opacity:.06;mix-blend-mode:screen}
+.hero::after{content:"";position:absolute;inset-block:-30% auto;inset-inline-start:-12%;width:70%;height:160%;
+  background:radial-gradient(circle at 30% 40%,rgba(21,112,126,.5),transparent 60%);pointer-events:none}
+.hero__in{position:relative;display:grid;grid-template-columns:1.15fr .85fr;gap:48px;align-items:center;padding-block:clamp(56px,8vw,92px)}
+.hero__eyebrow{display:inline-flex;align-items:center;gap:9px;background:rgba(196,154,63,.14);border:1px solid rgba(196,154,63,.35);
+  color:var(--stone-300);font-size:13.5px;font-weight:700;padding:8px 15px;border-radius:999px;margin-bottom:24px}
+.hero__eyebrow i{width:16px;height:16px;color:var(--stone-400)}
+.hero h1{font-size:clamp(38px,5.4vw,68px);font-weight:900;letter-spacing:-.02em;line-height:1.06;color:#fff}
+.hero h1 em{font-style:normal;color:var(--stone-400)}
+.hero__sub{margin-top:22px;font-size:clamp(16px,1.5vw,19px);line-height:1.75;color:var(--text-on-navy);max-width:560px;font-weight:400}
+.hero__cta{display:flex;gap:14px;flex-wrap:wrap;margin-top:34px}
+.hero__stats{display:flex;gap:34px;margin-top:46px;flex-wrap:wrap}
+.hero__stats .v{font-size:30px;font-weight:900;color:#fff;font-family:var(--font-display)}
+.hero__stats .l{font-size:13.5px;color:var(--text-on-navy-muted);margin-top:3px}
+.hero__stats .x{width:1px;align-self:stretch;background:rgba(255,255,255,.14)}
+.hero__art{position:relative;display:flex;align-items:center;justify-content:center}
+.hero__card{position:relative;width:100%;aspect-ratio:5/6;border-radius:var(--gw) var(--gw) 6px 6px;
+  background:linear-gradient(160deg,#14274A,#0F4E57 130%);border:1px solid rgba(255,255,255,.1);
+  box-shadow:0 40px 80px -30px rgba(0,0,0,.6);display:flex;align-items:center;justify-content:center;overflow:hidden}
+.hero__card::before{content:"";position:absolute;inset:0;background:url('assets/pattern-pipes.svg') center/360px;opacity:.12}
+.hero__card img{position:relative;width:54%;filter:drop-shadow(0 18px 30px rgba(0,0,0,.4))}
+.hero__tag{position:absolute;inset-block-end:18px;inset-inline:18px;display:flex;align-items:center;gap:11px;
+  background:rgba(7,15,31,.66);backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.12);border-radius:13px;padding:13px 16px}
+.hero__tag i{width:20px;height:20px;color:var(--stone-400);flex:none}
+.hero__tag b{display:block;color:#fff;font-size:14.5px}
+.hero__tag span{display:block;color:var(--text-on-navy-muted);font-size:12.5px;margin-top:1px}
+@media(max-width:900px){.hero__in{grid-template-columns:1fr;gap:36px}.hero__art{max-width:380px}}
+
+/* ============================================================
+   AUDIENCE SPLIT
+   ============================================================ */
+.sec{padding-block:clamp(54px,7vw,86px)}
+.sec--tight{padding-block:clamp(40px,5vw,60px)}
+.sechead{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;margin-bottom:36px;flex-wrap:wrap}
+.sechead h2{font-size:clamp(28px,3.4vw,40px);font-weight:900;color:var(--navy-800);margin-top:10px}
+.sechead p{color:var(--text-muted);font-size:14.5px;max-width:420px}
+.aud{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.aud__card{position:relative;border-radius:20px;padding:40px;overflow:hidden;color:#fff;min-height:300px;display:flex;flex-direction:column;justify-content:flex-end}
+.aud__card .pat{position:absolute;inset:0;opacity:.1}
+.aud--dist{background:linear-gradient(150deg,#0D1B33,#14274A)}
+.aud--dist .pat{background:url('assets/pattern-pipes.svg') center/300px}
+.aud--show{background:linear-gradient(150deg,#0F4E57,#15707E)}
+.aud--show .pat{background:url('assets/pattern-arch.svg') center/300px}
+.aud__card .rel{position:relative}
+.aud__lab{font-size:13px;font-weight:700;color:var(--stone-300);margin-bottom:10px;display:block}
+.aud__card h3{font-size:27px;font-weight:900;color:#fff;margin-bottom:12px}
+.aud__card p{color:rgba(255,255,255,.82);font-size:15px;line-height:1.7;max-width:430px;margin-bottom:22px}
+.aud__btns{display:flex;gap:11px;flex-wrap:wrap}
+@media(max-width:760px){.aud{grid-template-columns:1fr}}
+
+/* ============================================================
+   CATEGORIES
+   ============================================================ */
+.cats{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.cat{position:relative;background:#fff;border:1px solid var(--border-subtle);border-radius:16px;padding:24px 22px;
+  display:flex;flex-direction:column;gap:14px;text-decoration:none;transition:.18s;cursor:pointer;overflow:hidden}
+.cat:hover{transform:translateY(-3px);box-shadow:var(--shadow-lift);border-color:var(--teal-300)}
+.cat__ic{width:52px;height:52px;border-radius:13px;background:var(--teal-050);color:var(--teal-600);
+  display:flex;align-items:center;justify-content:center;transition:.18s}
+.cat:hover .cat__ic{background:var(--teal-500);color:#fff}
+.cat__ic i{width:26px;height:26px}
+.cat__nm{font-size:17px;font-weight:800;color:var(--navy-800)}
+.cat__ct{font-size:13px;color:var(--text-muted);margin-top:-8px}
+.cat__go{margin-top:auto;display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:700;color:var(--teal-600)}
+.cat__go i{width:15px;height:15px}
+@media(max-width:980px){.cats{grid-template-columns:repeat(2,1fr)}}
+
+/* ============================================================
+   PRODUCT CARDS
+   ============================================================ */
+.prods{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.pcard{background:#fff;border:1px solid var(--border-subtle);border-radius:15px;overflow:hidden;display:flex;flex-direction:column;transition:.18s}
+.pcard:hover{transform:translateY(-3px);box-shadow:var(--shadow-lift);border-color:var(--teal-300)}
+.pcard__media{position:relative;aspect-ratio:4/3;background:linear-gradient(155deg,#14274A,#0F4E57);display:flex;align-items:center;justify-content:center;overflow:hidden}
+.pcard__media::before{content:"";position:absolute;inset:0;background:url('assets/pattern-arch.svg') center/180px;opacity:.14}
+.pcard__media img{position:relative;width:38%;opacity:.92}
+.pcard__brand{position:absolute;inset-block-start:11px;inset-inline-start:11px;background:rgba(255,255,255,.92);color:var(--navy-800);
+  font-size:12px;font-weight:800;padding:4px 10px;border-radius:7px}
+.pcard .badge--abs{position:absolute;inset-block-start:11px;inset-inline-end:11px;background:rgba(246,244,239,.95)}
+.pcard__body{padding:16px;display:flex;flex-direction:column;gap:9px;flex:1}
+.pcard__nm{font-size:15.5px;font-weight:700;color:var(--navy-800);line-height:1.45;cursor:pointer}
+.pcard__nm:hover{color:var(--teal-600)}
+.pcard__meta{display:flex;align-items:center;justify-content:space-between;font-size:12.5px;color:var(--text-muted)}
+.pcard__code{font-family:var(--font-mono);font-size:12px;color:var(--slate-500)}
+.pcard__foot{margin-top:auto;padding-top:12px;border-top:1px solid var(--border-subtle)}
+.wa-soft{display:inline-flex;align-items:center;gap:8px;font-size:13.5px;font-weight:700;color:var(--whatsapp-dark);text-decoration:none}
+.wa-soft svg{width:17px;height:17px}
+.wa-soft:hover{text-decoration:underline}
+@media(max-width:980px){.prods{grid-template-columns:repeat(2,1fr)}}
+
+/* ============================================================
+   BRANDS STRIP
+   ============================================================ */
+.brands{display:flex;flex-wrap:wrap;gap:14px}
+.brand{flex:1 1 150px;background:#fff;border:1px solid var(--border-subtle);border-radius:12px;height:78px;
+  display:flex;align-items:center;justify-content:center;gap:9px;font-size:19px;font-weight:800;color:var(--navy-700)}
+.brand .tag{font-size:11px;font-weight:700;color:var(--stone-700);background:var(--stone-100);border:1px solid var(--stone-300);padding:3px 8px;border-radius:999px}
+
+/* ============================================================
+   TRUST BAND
+   ============================================================ */
+.trust{background:var(--navy-800);color:#fff;overflow:hidden}
+.trust::before{content:"";position:absolute;inset:0;background:url('assets/pattern-pipes.svg') center/380px;opacity:.06}
+.trust__in{position:relative;display:grid;grid-template-columns:repeat(4,1fr);gap:20px;padding-block:clamp(44px,5vw,64px)}
+.tstat{text-align:center;padding:0 12px}
+.tstat .ic{width:64px;height:64px;margin:0 auto 16px;border-radius:16px;background:rgba(21,112,126,.22);
+  border:1px solid rgba(58,140,153,.35);color:var(--stone-400);display:flex;align-items:center;justify-content:center}
+.tstat .ic i{width:30px;height:30px}
+.tstat .v{font-size:19px;font-weight:800;color:#fff}
+.tstat .l{font-size:13.5px;color:var(--text-on-navy-muted);margin-top:5px}
+@media(max-width:760px){.trust__in{grid-template-columns:repeat(2,1fr);gap:32px}}
+
+/* ============================================================
+   CTA BAND
+   ============================================================ */
+.ctaband{background:linear-gradient(150deg,#0F4E57,#15707E);color:#fff;border-radius:var(--gw) var(--gw) 6px 6px;overflow:hidden;position:relative}
+.ctaband::before{content:"";position:absolute;inset:0;background:url('assets/pattern-arch.svg') center/300px;opacity:.1}
+.ctaband__in{position:relative;display:flex;align-items:center;justify-content:space-between;gap:30px;padding:clamp(34px,4vw,54px);flex-wrap:wrap}
+.ctaband h2{font-size:clamp(24px,2.8vw,34px);font-weight:900;color:#fff}
+.ctaband p{color:rgba(255,255,255,.85);font-size:16px;margin-top:10px;max-width:480px}
+.ctaband__btns{display:flex;gap:13px;flex-wrap:wrap}
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+.ftr{background:var(--navy-900);color:var(--text-on-navy-muted);padding-block:56px 0}
+.ftr__in{display:grid;grid-template-columns:1.4fr 1fr 1fr 1.2fr;gap:36px;padding-bottom:44px}
+.ftr__logo img{height:84px;width:auto;margin-bottom:18px}
+.ftr__in p{font-size:14px;line-height:1.8;max-width:280px}
+.ftr h4{color:#fff;font-size:15px;font-weight:800;margin-bottom:16px}
+.ftr ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:11px}
+.ftr li{font-size:14px}
+.ftr li a,.ftr__row{color:var(--text-on-navy-muted);text-decoration:none;display:inline-flex;align-items:center;gap:9px;transition:.15s}
+.ftr li a:hover{color:#fff}
+.ftr__row i{width:16px;height:16px;color:var(--stone-400);flex:none}
+.ftr__bot{border-top:1px solid rgba(255,255,255,.1);padding-block:22px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:13px}
+.ftr__bot .num{color:var(--text-on-navy-muted)}
+@media(max-width:860px){.ftr__in{grid-template-columns:1fr 1fr}}
+
+/* ============================================================
+   SCREENS / inner pages
+   ============================================================ */
+.screen{display:none}
+.screen.on{display:block}
+.crumb{font-size:13.5px;color:var(--text-muted);padding-block:22px 4px;display:flex;align-items:center;gap:7px}
+.crumb a{color:var(--text-muted);text-decoration:none;cursor:pointer}
+.crumb a:hover{color:var(--teal-600)}
+.crumb i{width:15px;height:15px}
+.crumb .cur{color:var(--navy-800);font-weight:700}
+.catlayout{display:grid;grid-template-columns:248px 1fr;gap:32px;align-items:start;padding-bottom:60px}
+.filters{background:#fff;border:1px solid var(--border-subtle);border-radius:15px;padding:22px;position:sticky;top:128px}
+.filters h5{margin:0 0 4px;font-size:16px;font-weight:800;color:var(--navy-800)}
+.fgrp{padding-block:18px;border-bottom:1px solid var(--border-subtle)}
+.fgrp:last-of-type{border-bottom:0}
+.fgrp__t{font-weight:800;font-size:13.5px;margin-bottom:12px;color:var(--slate-700)}
+.fopt{display:flex;align-items:center;gap:9px;font-size:14px;color:var(--text-body);padding:5px 0;cursor:pointer}
+.fopt input{accent-color:var(--teal-500);width:16px;height:16px}
+.fopt .ct{margin-inline-start:auto;font-size:12px;color:var(--slate-400);font-family:var(--font-mono)}
+.toolbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;gap:14px;flex-wrap:wrap}
+.toolbar select{border:1px solid var(--border-default);border-radius:9px;padding:9px 13px;font-family:inherit;font-size:14px;color:var(--ink);background:#fff}
+@media(max-width:860px){.catlayout{grid-template-columns:1fr}.filters{position:static}}
+
+/* product detail */
+.pdp{display:grid;grid-template-columns:1fr 1fr;gap:44px;padding-bottom:24px;align-items:start}
+.pdp__main{aspect-ratio:1;border-radius:var(--gw) var(--gw) 6px 6px;background:linear-gradient(155deg,#14274A,#0F4E57);
+  display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative;border:1px solid var(--border-subtle)}
+.pdp__main::before{content:"";position:absolute;inset:0;background:url('assets/pattern-arch.svg') center/260px;opacity:.13}
+.pdp__main img{position:relative;width:42%}
+.pdp__thumbs{display:flex;gap:12px;margin-top:14px}
+.pdp__thumb{width:74px;height:74px;border-radius:12px;background:linear-gradient(155deg,#1D3766,#15707E);cursor:pointer;border:2px solid transparent;opacity:.7}
+.pdp__thumb.on{border-color:var(--teal-500);opacity:1}
+.pdp__info h1{font-size:clamp(26px,3vw,34px);font-weight:900;color:var(--navy-800);line-height:1.2;margin:14px 0}
+.pdp__row{display:flex;align-items:center;gap:16px;margin-bottom:16px;flex-wrap:wrap}
+.pdp__code{font-family:var(--font-mono);font-size:13px;color:var(--slate-500);background:var(--slate-100);padding:5px 11px;border-radius:7px}
+.pdp__desc{color:var(--text-body);line-height:1.85;font-size:15.5px}
+.specs{margin:24px 0;border:1px solid var(--border-subtle);border-radius:13px;overflow:hidden}
+.specs__row{display:flex;justify-content:space-between;padding:13px 18px;font-size:14.5px}
+.specs__row:nth-child(odd){background:var(--slate-100)}
+.specs__row .k{color:var(--text-muted)}
+.specs__row .v{font-weight:700;color:var(--navy-800)}
+.pdp__actions{display:flex;gap:13px;flex-wrap:wrap;margin-bottom:18px}
+.note{display:flex;gap:11px;background:var(--teal-050);border:1px solid var(--teal-200);border-radius:12px;padding:15px 17px;font-size:13.5px;color:var(--teal-700);line-height:1.6}
+.note i{width:19px;height:19px;color:var(--teal-600);flex:none;margin-top:1px}
+@media(max-width:860px){.pdp{grid-template-columns:1fr;gap:28px}}
+
+/* floating whatsapp */
+.fab{position:fixed;inset-block-end:24px;inset-inline-end:24px;z-index:80;width:60px;height:60px;border-radius:50%;
+  background:var(--whatsapp);color:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 12px 30px -8px rgba(37,211,102,.6);
+  transition:.18s;cursor:pointer}
+.fab:hover{transform:scale(1.07)}
+.fab svg{width:30px;height:30px}
+</style>
+</head>
+<body>
+
+<!-- ===================== HEADER ===================== -->
+<header class="hdr">
+  <div class="topbar">
+    <div class="wrap">
+      <span>المنتج المناسب، بقيمة مناسبة، وتوريد تعتمد عليه.</span>
+      <span style="display:flex;gap:16px;align-items:center">
+        <a href="tel:+201000000000"><i data-lucide="phone"></i> <span class="num" dir="ltr">٠١٠٠ ٠٠٠ ٠٠٠٠</span></a>
+        <span class="sep">·</span>
+        <a><i data-lucide="map-pin"></i> الواسطى، بني سويف</a>
+      </span>
+    </div>
+  </div>
+  <div class="wrap hdr__main">
+    <a class="hdr__logo" onclick="go('home')"><img src="assets/lockup_horizontal.png" alt="نور القدس"></a>
+    <nav class="hdr__nav" id="nav">
+      <a data-nav="home" class="on" onclick="go('home')">الرئيسية</a>
+      <a data-nav="cat" onclick="go('cat')">المنتجات</a>
+      <a onclick="go('cat')">التوزيع</a>
+      <a onclick="go('cat')">المعرض</a>
+      <a onclick="go('home')">عن الشركة</a>
+    </nav>
+    <div class="hdr__spacer"></div>
+    <label class="hdr__search">
+      <i data-lucide="search"></i>
+      <input placeholder="ابحث عن منتج أو كود…">
+    </label>
+    <a class="btn btn--wa btn--sm" href="https://wa.me/201000000000" target="_blank"><i data-lucide="message-circle"></i> واتساب</a>
+  </div>
+</header>
+
+<!-- ===================== HOME ===================== -->
+<main id="home" class="screen on" data-screen-label="Home">
+  <section class="hero">
+    <div class="wrap hero__in">
+      <div>
+        <span class="hero__eyebrow"><i data-lucide="badge-check"></i> وكيل نصّار الحصري في بني سويف · منذ ٢٠١١</span>
+        <h1>المنتج المناسب، بقيمة مناسبة، <em>وتوريد تعتمد عليه</em></h1>
+        <p class="hero__sub">مواسير ووصلات، أنظمة مياه، أطقم حمامات وخلاطات — بأسعار الجملة وتوريد سريع يغطّي محافظة بني سويف بالكامل. للتجار والمقاولين والفنيين والأفراد.</p>
+        <div class="hero__cta">
+          <a class="btn btn--gold btn--lg" onclick="go('cat')"><i data-lucide="layout-grid"></i> تصفّح المنتجات</a>
+          <a class="btn btn--wa btn--lg" href="https://wa.me/201000000000" target="_blank"><i data-lucide="message-circle"></i> اسأل عن السعر والتوافر</a>
+        </div>
+        <div class="hero__stats">
+          <div><div class="v num">٢٠١١</div><div class="l">خبرة في السوق منذ</div></div>
+          <div class="x"></div>
+          <div><div class="v num">+٥٠٠٠</div><div class="l">صنف متوفر</div></div>
+          <div class="x"></div>
+          <div><div class="v">بني سويف</div><div class="l">تغطية كاملة</div></div>
+        </div>
+      </div>
+      <div class="hero__art">
+        <div class="hero__card">
+          <img src="assets/symbol_white.png" alt="">
+          <div class="hero__tag">
+            <i data-lucide="truck"></i>
+            <div><b>توريد سريع للمشاريع والكميات</b><span>تغطية كل مراكز المحافظة</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- audience split -->
+  <section class="sec wrap">
+    <div class="sechead">
+      <div>
+        <span class="eyebrow">Two ways we serve you</span>
+        <h2>وحدتان تحت اسم واحد</h2>
+      </div>
+      <p>قوة توزيع للتجار والمشاريع، ومعرض يساعدك تجهّز بيتك — بنفس الجودة والثقة.</p>
+    </div>
+    <div class="aud">
+      <div class="aud__card aud--dist">
+        <div class="pat"></div>
+        <div class="rel">
+          <span class="aud__lab">للتجار والمقاولين والفنيين</span>
+          <h3>نور القدس للتوزيع</h3>
+          <p>مخزون قوي، علامات تجارية موثوقة، وتوريد سريع للكميات الكبيرة. خدمة الجملة والمشاريع في كل أنحاء المحافظة.</p>
+          <div class="aud__btns">
+            <a class="btn btn--gold" onclick="go('cat')">خدمات التوزيع</a>
+            <a class="btn btn--lighton" href="https://wa.me/201000000000" target="_blank">تواصل مع مندوب</a>
+          </div>
+        </div>
+      </div>
+      <div class="aud__card aud--show">
+        <div class="pat"></div>
+        <div class="rel">
+          <span class="aud__lab">لتجهيز وتشطيب المنزل</span>
+          <h3>معرض نور القدس</h3>
+          <p>أطقم حمامات وخلاطات وفلاتر بأنماط حديثة وميزانيات مختلفة — مع مساعدتك في اختيار المنتجات المناسبة لبيتك.</p>
+          <div class="aud__btns">
+            <a class="btn btn--gold" onclick="go('cat')">جهّز منزلك</a>
+            <a class="btn btn--lighton" href="https://wa.me/201000000000" target="_blank">احجز زيارة</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- categories -->
+  <section class="sec wrap" style="padding-top:0">
+    <div class="sechead">
+      <div><span class="eyebrow">Product Categories</span><h2>تصفّح حسب الفئة</h2></div>
+      <a class="btn btn--ghost" onclick="go('cat')">كل الفئات <i data-lucide="arrow-left"></i></a>
+    </div>
+    <div class="cats" id="catgrid"></div>
+  </section>
+
+  <!-- featured -->
+  <section class="sec wrap" style="padding-top:0">
+    <div class="sechead">
+      <div><span class="eyebrow">New &amp; Featured</span><h2>منتجات مختارة</h2></div>
+      <p>الأسعار تتغيّر حسب السوق — اسأل عبر واتساب لمعرفة السعر الحالي.</p>
+    </div>
+    <div class="prods" id="featgrid"></div>
+  </section>
+
+  <!-- brands -->
+  <section class="sec--tight wrap">
+    <div class="sechead" style="margin-bottom:22px"><div><span class="eyebrow">Trusted Brands</span><h2>علامات نتعامل معها</h2></div></div>
+    <div class="brands">
+      <div class="brand">نصّار <span class="tag">وكيل حصري</span></div>
+      <div class="brand">ديما</div>
+      <div class="brand">PR</div>
+      <div class="brand">إيديال</div>
+      <div class="brand">كيرَفِت</div>
+      <div class="brand">كيرول</div>
+    </div>
+  </section>
+
+  <!-- trust band -->
+  <section class="trust">
+    <div class="wrap trust__in">
+      <div class="tstat"><div class="ic"><i data-lucide="warehouse"></i></div><div class="v">مخزون كبير</div><div class="l">منظّم وجاهز للتسليم</div></div>
+      <div class="tstat"><div class="ic"><i data-lucide="truck"></i></div><div class="v">توريد سريع</div><div class="l">تغطية كل بني سويف</div></div>
+      <div class="tstat"><div class="ic"><i data-lucide="shield-check"></i></div><div class="v">علامات موثوقة</div><div class="l">منتجات بمواصفات صحيحة</div></div>
+      <div class="tstat"><div class="ic"><i data-lucide="handshake"></i></div><div class="v">منذ ٢٠١١</div><div class="l">خبرة في السوق المحلي</div></div>
+    </div>
+  </section>
+
+  <!-- cta -->
+  <section class="sec wrap">
+    <div class="ctaband">
+      <div class="ctaband__in">
+        <div>
+          <h2>محتاج عرض سعر لمشروع أو كمية؟</h2>
+          <p>ابعت لنا قائمة احتياجاتك وفريق التوزيع يرجّعلك بالأسعار والتوافر بسرعة.</p>
+        </div>
+        <div class="ctaband__btns">
+          <a class="btn btn--gold btn--lg" href="https://wa.me/201000000000" target="_blank"><i data-lucide="file-text"></i> اطلب عرض سعر</a>
+          <a class="btn btn--lighton btn--lg" onclick="go('cat')">تصفّح الكتالوج</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- ===================== CATEGORY ===================== -->
+<main id="cat" class="screen" data-screen-label="Category">
+  <div class="wrap">
+    <div class="crumb"><a onclick="go('home')">الرئيسية</a><i data-lucide="chevron-left"></i><a onclick="go('cat')">المنتجات</a><i data-lucide="chevron-left"></i><span class="cur">مواسير ووصلات</span></div>
+    <div style="padding-block:8px 30px">
+      <span class="eyebrow">Pipes &amp; Fittings</span>
+      <h2 style="font-size:clamp(28px,3.4vw,38px);color:var(--navy-800);margin-top:10px">مواسير ووصلات</h2>
+      <p style="color:var(--text-muted);max-width:660px;margin-top:10px;line-height:1.7">مواسير PPR و PVC ووصلاتها بمقاسات وضغوط مختلفة، من نصّار وديما وعلامات موثوقة. اسأل عن السعر والتوافر لأي صنف عبر واتساب.</p>
+    </div>
+    <div class="catlayout">
+      <aside class="filters">
+        <h5>تصفية النتائج</h5>
+        <div class="fgrp">
+          <div class="fgrp__t">العلامة التجارية</div>
+          <label class="fopt"><input type="checkbox" checked> نصّار <span class="ct">٨٤</span></label>
+          <label class="fopt"><input type="checkbox"> ديما <span class="ct">٥١</span></label>
+          <label class="fopt"><input type="checkbox"> PR <span class="ct">٣٢</span></label>
+        </div>
+        <div class="fgrp">
+          <div class="fgrp__t">المقاس</div>
+          <label class="fopt"><input type="checkbox"> ٢٠ مم <span class="ct">٢٦</span></label>
+          <label class="fopt"><input type="checkbox" checked> ٢٥ مم <span class="ct">٣٤</span></label>
+          <label class="fopt"><input type="checkbox"> ٣٢ مم <span class="ct">١٩</span></label>
+        </div>
+        <div class="fgrp">
+          <div class="fgrp__t">التوافر</div>
+          <label class="fopt"><input type="checkbox" checked> متوفر <span class="ct">٧٢</span></label>
+          <label class="fopt"><input type="checkbox"> حسب الطلب <span class="ct">١٨</span></label>
+        </div>
+        <a class="btn btn--wa btn--full btn--sm" style="margin-top:18px" href="https://wa.me/201000000000" target="_blank"><i data-lucide="message-circle"></i> لم تجد ما تبحث عنه؟</a>
+      </aside>
+      <div>
+        <div class="toolbar">
+          <span style="font-size:14px;color:var(--text-muted)">عرض <b style="color:var(--ink)" class="num">١٢</b> من <span class="num">١٦٧</span> صنف</span>
+          <select><option>الأحدث</option><option>الأكثر طلبًا</option><option>حسب العلامة</option></select>
+        </div>
+        <div class="prods" id="catprods" style="grid-template-columns:repeat(3,1fr)"></div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- ===================== PRODUCT DETAIL ===================== -->
+<main id="pdp" class="screen" data-screen-label="Product">
+  <div class="wrap">
+    <div class="crumb"><a onclick="go('home')">الرئيسية</a><i data-lucide="chevron-left"></i><a onclick="go('cat')">مواسير ووصلات</a><i data-lucide="chevron-left"></i><span class="cur">ماسورة نصّار PPR ٢٥مم</span></div>
+    <div class="pdp" style="padding-top:14px">
+      <div>
+        <div class="pdp__main"><img src="assets/symbol_white.png" alt=""></div>
+        <div class="pdp__thumbs">
+          <div class="pdp__thumb on"></div><div class="pdp__thumb"></div><div class="pdp__thumb"></div><div class="pdp__thumb"></div>
+        </div>
+      </div>
+      <div class="pdp__info">
+        <span class="badge badge--in"><span class="d"></span> متوفر في المخزون</span>
+        <h1>ماسورة نصّار PPR ٢٥مم — ضغط ٤ بار</h1>
+        <div class="pdp__row">
+          <span class="pdp__code">PRD-00142</span>
+          <span class="chip-gold"><i data-lucide="badge-check" style="width:14px;height:14px"></i> وكيل نصّار الحصري</span>
+        </div>
+        <p class="pdp__desc">ماسورة بولي بروبيلين عشوائي (PPR) لشبكات المياه الساخنة والباردة، مقاومة للحرارة والضغط وطويلة العمر. مناسبة للمشاريع السكنية والتجارية.</p>
+        <div class="specs">
+          <div class="specs__row"><span class="k">المقاس</span><span class="v num">٢٥ مم</span></div>
+          <div class="specs__row"><span class="k">الضغط</span><span class="v">٤ بار (PN16)</span></div>
+          <div class="specs__row"><span class="k">الخامة</span><span class="v">PPR درجة أولى</span></div>
+          <div class="specs__row"><span class="k">الاستخدام</span><span class="v">مياه ساخنة وباردة</span></div>
+          <div class="specs__row"><span class="k">الوحدة</span><span class="v">المتر الطولي</span></div>
+        </div>
+        <div class="pdp__actions">
+          <a class="btn btn--wa btn--lg" href="https://wa.me/201000000000" target="_blank"><i data-lucide="message-circle"></i> اسأل عن السعر والتوافر</a>
+          <a class="btn btn--outline btn--lg" href="https://wa.me/201000000000" target="_blank"><i data-lucide="file-text"></i> اطلب عرض سعر</a>
+        </div>
+        <div class="note"><i data-lucide="info"></i><span>الأسعار تتغيّر حسب السوق، لذلك لا نعرض سعرًا ثابتًا. تواصل معنا عبر واتساب لمعرفة السعر الحالي والتوافر الفوري للكميات.</span></div>
+      </div>
+    </div>
+    <section class="sec" style="padding-top:0">
+      <div class="sechead"><div><span class="eyebrow">Related</span><h2 style="font-size:28px;color:var(--navy-800)">منتجات ذات صلة</h2></div></div>
+      <div class="prods" id="relgrid"></div>
+    </section>
+  </div>
+</main>
+
+<!-- ===================== FOOTER ===================== -->
+<footer class="ftr">
+  <div class="wrap">
+    <div class="ftr__in">
+      <div class="ftr__logo">
+        <img src="assets/lockup_stacked_reversed.png" alt="نور القدس">
+        <p>شركة متخصصة في تجارة وتوزيع الأدوات الصحية وأنظمة المياه، تخدم بني سويف منذ ٢٠١١.</p>
+      </div>
+      <div>
+        <h4>المنتجات</h4>
+        <ul><li><a>مواسير ووصلات</a></li><li><a>أنظمة المياه</a></li><li><a>أطقم حمامات</a></li><li><a>خلاطات وحنفيات</a></li><li><a>فلاتر مياه</a></li></ul>
+      </div>
+      <div>
+        <h4>الشركة</h4>
+        <ul><li><a>عن نور القدس</a></li><li><a>خدمات التوزيع</a></li><li><a>المقاولون والمشاريع</a></li><li><a>المعرض</a></li><li><a>تواصل معنا</a></li></ul>
+      </div>
+      <div>
+        <h4>تواصل معنا</h4>
+        <ul>
+          <li><span class="ftr__row"><i data-lucide="map-pin"></i> الواسطى، بني سويف</span></li>
+          <li><span class="ftr__row"><i data-lucide="phone"></i> <span class="num" dir="ltr">٠١٠٠ ٠٠٠ ٠٠٠٠</span></span></li>
+          <li><span class="ftr__row"><i data-lucide="clock"></i> السبت–الخميس ٩ص–٨م</span></li>
+        </ul>
+        <a class="btn btn--wa btn--full btn--sm" style="margin-top:14px" href="https://wa.me/201000000000" target="_blank"><i data-lucide="message-circle"></i> تواصل عبر واتساب</a>
+      </div>
+    </div>
+    <div class="ftr__bot">
+      <span>© <span class="num">٢٠٢٦</span> نور القدس للأدوات الصحية وأنظمة المياه</span>
+      <span>المنتج المناسب، بقيمة مناسبة، وتوريد تعتمد عليه.</span>
+    </div>
+  </div>
+</footer>
+
+<a class="fab" href="https://wa.me/201000000000" target="_blank" aria-label="واتساب">
+  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19.05 4.91A10 10 0 0 0 2.05 12a9.9 9.9 0 0 0 1.34 5l-1.42 5.18 5.3-1.39A10 10 0 0 0 12 22a10 10 0 0 0 7.05-17.09zM12 20.13a8.2 8.2 0 0 1-4.18-1.14l-.3-.18-3.1.81.83-3.02-.2-.31A8.13 8.13 0 1 1 12 20.13z"/></svg>
+</a>
+
+<script src="https://unpkg.com/lucide@latest"></script>
+<script>
+const CATS = [
+  ['مواسير ووصلات','+٣٢٠ صنف','git-merge'],['أنظمة المياه','+١١٠ صنف','droplets'],
+  ['أطقم حمامات','+٩٠ صنف','bath'],['خلاطات وحنفيات','+١٤٠ صنف','shower-head'],
+  ['أحواض ومغاسل','+٧٠ صنف','square'],['سخانات','+٤٠ صنف','flame'],
+  ['فلاتر مياه','+٥٥ صنف','filter'],['أدوات وسباكة','+٢١٠ صنف','wrench'],
+];
+const PRODS = [
+  ['ماسورة نصّار PPR ٢٥مم','نصّار','PRD-00142','in','٢٥مم · ٤ بار'],
+  ['كوع ٩٠° ½ بوصة','نصّار','PRD-00091','in','½"'],
+  ['خلاط حوض كروم','ديما','PRD-00310','req','مقاس قياسي'],
+  ['فلتر مياه ٣ مراحل','PR','PRD-00521','in','٣ مراحل'],
+  ['طقم حمام كامل','إيديال','PRD-00088','req','أبيض'],
+  ['محبس زاوية نحاس','ديما','PRD-00204','in','½"'],
+  ['ماسورة PVC ١١٠مم','نصّار','PRD-00150','in','١١٠مم'],
+  ['حوض مغسلة معلّق','كيرَفِت','PRD-00417','out','٥٥سم'],
+  ['سخّان كهربائي ٥٠ لتر','إيديال','PRD-00233','in','٥٠ لتر'],
+];
+const AVL = {in:['متوفر','in'],req:['حسب الطلب','req'],out:['غير متوفر','out']};
+const wa = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M19.05 4.91A10 10 0 0 0 2.05 12a9.9 9.9 0 0 0 1.34 5l-1.42 5.18 5.3-1.39A10 10 0 0 0 12 22a10 10 0 0 0 7.05-17.09zM12 20.13a8.2 8.2 0 0 1-4.18-1.14l-.3-.18-3.1.81.83-3.02-.2-.31A8.13 8.13 0 1 1 12 20.13z"/></svg>';
+
+function catTile([nm,ct,ic]){
+  return `<a class="cat" onclick="go('cat')">
+    <span class="cat__ic"><i data-lucide="${ic}"></i></span>
+    <span class="cat__nm">${nm}</span>
+    <span class="cat__ct">${ct}</span>
+    <span class="cat__go">تصفّح <i data-lucide="arrow-left"></i></span>
+  </a>`;
+}
+function prodCard([nm,br,code,av,sz]){
+  const [lbl,cls]=AVL[av];
+  return `<div class="pcard">
+    <div class="pcard__media">
+      <img src="assets/symbol_white.png" alt="">
+      <span class="pcard__brand">${br}</span>
+      <span class="badge badge--${cls} badge--abs"><span class="d"></span>${lbl}</span>
+    </div>
+    <div class="pcard__body">
+      <div class="pcard__nm" onclick="go('pdp')">${nm}</div>
+      <div class="pcard__meta"><span class="pcard__code">${code}</span><span>${sz}</span></div>
+      <div class="pcard__foot"><a class="wa-soft" href="https://wa.me/201000000000" target="_blank">${wa} اسأل عن السعر والتوافر</a></div>
+    </div>
+  </div>`;
+}
+
+document.getElementById('catgrid').innerHTML = CATS.map(catTile).join('');
+document.getElementById('featgrid').innerHTML = PRODS.slice(0,4).map(prodCard).join('');
+document.getElementById('catprods').innerHTML = PRODS.map(prodCard).join('');
+document.getElementById('relgrid').innerHTML = PRODS.slice(1,5).map(prodCard).join('');
+
+function go(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.toggle('on',s.id===id));
+  document.querySelectorAll('#nav a').forEach(a=>a.classList.toggle('on',a.dataset.nav===id));
+  window.scrollTo({top:0,behavior:'instant'});
+  if(window.lucide) lucide.createIcons();
+}
+if(window.lucide) lucide.createIcons();
+</script>
+</body>
+</html>

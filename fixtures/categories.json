@@ -1,0 +1,10 @@
+[
+  { "id": 1, "name": "مواسير ووصلات", "slug": "pipes-fittings", "parent_id": null, "products_count": 320, "icon": "git-merge" },
+  { "id": 2, "name": "أنظمة المياه", "slug": "water-systems", "parent_id": null, "products_count": 110, "icon": "droplets" },
+  { "id": 3, "name": "أطقم حمامات", "slug": "bathroom-sets", "parent_id": null, "products_count": 90, "icon": "bath" },
+  { "id": 4, "name": "خلاطات وحنفيات", "slug": "mixers-taps", "parent_id": null, "products_count": 140, "icon": "shower-head" },
+  { "id": 5, "name": "أحواض ومغاسل", "slug": "basins-sinks", "parent_id": null, "products_count": 70, "icon": "square" },
+  { "id": 6, "name": "سخانات", "slug": "heaters", "parent_id": null, "products_count": 40, "icon": "flame" },
+  { "id": 7, "name": "فلاتر مياه", "slug": "water-filters", "parent_id": null, "products_count": 55, "icon": "filter" },
+  { "id": 8, "name": "أدوات وسباكة", "slug": "tools-plumbing", "parent_id": null, "products_count": 210, "icon": "wrench" }
+]

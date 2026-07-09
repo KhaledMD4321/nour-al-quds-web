@@ -1,0 +1,121 @@
+/* ============================================================
+   Nour Al Quds — Color tokens (FINAL approved Brand Kit v1.0)
+   Locked to the delivered NoorAlQuds_Brand_Kit palette:
+   - Deep Navy   #0D1B33  → trust, authority, structure (PRIMARY)
+   - Petrol/Teal #15707E  → water, systems, freshness (signal)
+   - Quds Gold   #C49A3F  → light, quality, the joint (sparing)
+   - Slate Gray  #5F6673  → secondary text, specs, UI support
+   - Warm Cream  #F6F4EF  → cleanliness, calm (never cold white)
+   Usage ratio: Navy 50–60% · Cream 20–30% · Gold 8–15% ·
+   Petrol 5–10% · Gray supporting only.
+   Approved alternates (still valid): Petrol #0F4E57 · Gold #C2A36A.
+   NOTE: the petrol scale keeps the legacy --teal-* names for
+   compatibility; --petrol-* aliases are provided below.
+   ============================================================ */
+
+:root {
+  /* ---- Primary — Deep Navy ---- */
+  --navy-900: #070F1F;
+  --navy-800: #0D1B33;   /* PRIMARY brand navy */
+  --navy-700: #14274A;
+  --navy-600: #1D3766;
+  --navy-500: #2A4A85;
+  --navy-100: #DCE3EF;
+  --navy-050: #EEF1F7;
+
+  /* ---- Secondary — Petrol / Teal (water / systems) ---- */
+  --teal-800: #0A3B42;
+  --teal-700: #0E5560;
+  --teal-600: #126370;
+  --teal-500: #15707E;   /* brand petrol — Brand Kit v1.0 */
+  --teal-400: #3A8C99;
+  --teal-300: #6FAEB8;
+  --teal-200: #A9D2D8;
+  --teal-100: #D2E8EB;
+  --teal-050: #ECF5F6;
+  --teal-legacy: #0F4E57; /* approved alternate petrol */
+  --petrol-700: var(--teal-700);
+  --petrol-600: var(--teal-600);
+  --petrol-500: var(--teal-500);
+  --petrol-400: var(--teal-400);
+  --petrol-200: var(--teal-200);
+  --petrol-100: var(--teal-100);
+  --petrol-050: var(--teal-050);
+
+  /* ---- Heritage — Quds Gold (matte, restrained) ---- */
+  --stone-700: #8C6E2B;
+  --stone-600: #A9842F;
+  --stone-500: #C49A3F;   /* Quds Gold — Brand Kit v1.0 */
+  --stone-400: #D3B266;
+  --stone-300: #E0C88E;
+  --stone-200: #EDDDBA;
+  --stone-100: #F6EEDC;
+  --stone-legacy: #C2A36A; /* approved alternate gold */
+  --gold-500: var(--stone-500);
+
+  /* ---- Neutrals (gray + warm off-white) ---- */
+  --ink:        #10141D;   /* primary text */
+  --slate-800:  #1F2733;
+  --slate-700:  #374151;
+  --slate-600:  #4B5563;
+  --slate-500:  #5F6673;   /* Slate Gray — Brand Kit v1.0 */
+  --slate-400:  #9CA3AF;
+  --slate-300:  #D1D5DB;
+  --slate-200:  #E5E7EB;
+  --slate-100:  #F3F4F6;
+  --limestone:  #F6F4EF;   /* warm off-white page background */
+  --white:      #FFFFFF;
+
+  /* ---- Semantic — availability + status ---- */
+  --success-600: #15875A;  /* "Available" / متوفر */
+  --success-500: #1F9D6B;
+  --success-100: #E0F2E9;
+  --warning-600: #C9761F;  /* "Available on request" / حسب الطلب */
+  --warning-500: #E08A2B;
+  --warning-100: #FBEBD6;
+  --danger-600:  #B83838;  /* "Out of stock" / غير متوفر */
+  --danger-500:  #D14343;
+  --danger-100:  #FBE3E3;
+
+  /* ---- Channel — WhatsApp (only for WhatsApp actions) ---- */
+  --whatsapp:      #25D366;
+  --whatsapp-dark: #1DA851;
+
+  /* ============================================================
+     Semantic aliases — reference these in components, not raw scale
+     ============================================================ */
+  --brand-primary:        var(--navy-800);
+  --brand-primary-strong: var(--navy-900);
+  --brand-secondary:      var(--teal-500);
+  --brand-accent:         var(--stone-500);
+
+  --bg-page:        var(--limestone);
+  --bg-surface:     var(--white);
+  --bg-raised:      var(--white);
+  --bg-sunken:      var(--slate-100);
+  --bg-inverse:     var(--navy-800);
+  --bg-inverse-deep:var(--navy-900);
+
+  --text-strong:    var(--ink);
+  --text-body:      var(--slate-700);
+  --text-muted:     var(--slate-500);
+  --text-on-navy:   #EDF1F7;
+  --text-on-navy-muted: #9AA9BF;
+  --text-on-teal:   #E8F1F2;   /* petrol is dark — text on it is light */
+  --text-link:      var(--teal-500);
+
+  --border-subtle:  var(--slate-200);
+  --border-default: var(--slate-300);
+  --border-strong:  var(--slate-400);
+  --border-brand:   var(--navy-800);
+
+  --focus-ring:     var(--teal-400);
+
+  /* Availability semantic shortcuts */
+  --avail-in:       var(--success-600);
+  --avail-in-bg:    var(--success-100);
+  --avail-request:  var(--warning-600);
+  --avail-request-bg: var(--warning-100);
+  --avail-out:      var(--danger-600);
+  --avail-out-bg:   var(--danger-100);
+}

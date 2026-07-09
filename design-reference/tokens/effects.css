@@ -1,0 +1,31 @@
+/* ============================================================
+   Nour Al Quds — Elevation, shadows, motion, borders
+   Quiet, professional depth. No glow, no neon, no heavy drop.
+   ============================================================ */
+
+:root {
+  /* ---- Shadows — cool navy-tinted, soft ---- */
+  --shadow-xs:  0 1px 2px rgba(14, 44, 79, 0.06);
+  --shadow-sm:  0 1px 3px rgba(14, 44, 79, 0.08), 0 1px 2px rgba(14, 44, 79, 0.06);
+  --shadow-md:  0 4px 12px rgba(14, 44, 79, 0.08), 0 2px 4px rgba(14, 44, 79, 0.05);
+  --shadow-lg:  0 12px 28px rgba(14, 44, 79, 0.10), 0 4px 8px rgba(14, 44, 79, 0.05);
+  --shadow-xl:  0 24px 48px rgba(14, 44, 79, 0.14);
+  --shadow-teal:  0 8px 20px rgba(20, 166, 180, 0.28);  /* on teal CTAs */
+  --shadow-inset: inset 0 1px 0 rgba(255, 255, 255, 0.6);
+
+  /* ---- Borders ---- */
+  --border-width: 1px;
+  --border-width-strong: 2px;
+
+  /* ---- Motion — calm, confident, no bounce ---- */
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1); /* @kind other */
+  --ease-out:      cubic-bezier(0.16, 1, 0.3, 1); /* @kind other */
+  --ease-in:       cubic-bezier(0.4, 0, 1, 1); /* @kind other */
+  --dur-fast:   120ms; /* @kind other */
+  --dur-base:   200ms; /* @kind other */
+  --dur-slow:   320ms; /* @kind other */
+
+  /* ---- Focus ring ---- */
+  --ring: 0 0 0 3px rgba(20, 166, 180, 0.40);
+  --ring-offset: 0 0 0 2px var(--white), 0 0 0 5px rgba(20, 166, 180, 0.45);
+}

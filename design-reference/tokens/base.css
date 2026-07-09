@@ -1,0 +1,63 @@
+/* ============================================================
+   Nour Al Quds — Base / reset layer
+   Sets Arabic-first defaults. RTL is the primary direction.
+   ============================================================ */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-ui);
+  font-size: var(--text-base);
+  line-height: var(--leading-normal);
+  color: var(--text-body);
+  background: var(--bg-page);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Arabic / RTL surfaces */
+[dir="rtl"] { text-align: right; }
+
+/* Headings default to display family + strong ink */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  color: var(--text-strong);
+  font-weight: var(--weight-extrabold);
+  line-height: var(--leading-tight);
+  margin: 0;
+  text-wrap: balance;
+}
+
+p { margin: 0; text-wrap: pretty; }
+
+a {
+  color: var(--text-link);
+  text-decoration: none;
+}
+a:hover { text-decoration: underline; }
+
+/* Latin runs inside Arabic copy use the Latin stack (Alexandria) */
+.lat { font-family: var(--font-latin); }
+/* Numerics / codes / prices */
+.num, code, kbd, samp { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+
+::selection { background: var(--teal-200); color: var(--navy-900); }
+
+:focus-visible {
+  outline: none;
+  box-shadow: var(--ring);
+  border-radius: var(--radius-sm);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
