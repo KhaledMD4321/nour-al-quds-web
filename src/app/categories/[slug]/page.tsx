@@ -1,6 +1,6 @@
 import { notFound, redirect } from "next/navigation";
 import type { Metadata } from "next";
-import { getCategory, getCategories, getProducts } from "@/lib/erp";
+import { getCategory, getCategories, getAllProducts } from "@/lib/erp";
 import { parseIdFromParam, categoryHref } from "@/lib/urls";
 import { Breadcrumb } from "@/components/Breadcrumb";
 import { CategoryBrowser } from "@/components/CategoryBrowser";
@@ -47,7 +47,7 @@ export default async function CategoryPage({
   if (slug !== canonical) redirect(categoryHref(category));
 
   // كل منتجات الفئة تُرسَل للعميل ويتم فلترتها/ترتيبها هناك (الصفحة تبقى SSG)
-  const { data: products } = await getProducts({ category_id: id, per_page: 1000 });
+  const products = await getAllProducts({ category_id: id });
 
   return (
     <main className="flex-1">

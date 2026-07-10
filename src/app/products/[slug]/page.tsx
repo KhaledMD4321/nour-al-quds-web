@@ -1,7 +1,7 @@
 import { notFound, redirect } from "next/navigation";
 import type { Metadata } from "next";
 import { FileText, Info } from "lucide-react";
-import { getProduct, getRelatedProducts, getProducts } from "@/lib/erp";
+import { getProduct, getRelatedProducts } from "@/lib/erp";
 import { parseIdFromParam, productHref, categoryHref } from "@/lib/urls";
 import { ProductCard } from "@/components/ProductCard";
 import { Breadcrumb } from "@/components/Breadcrumb";
@@ -15,9 +15,10 @@ export const revalidate = 300;
 
 type Params = { slug: string };
 
+// كتالوج كبير (1500+ منتج): مفيش prerender وقت البناء — كل منتج يُرندَر عند أول طلب
+// ويُخزَّن بالـ ISR (revalidate 300، dynamicParams افتراضياً true). الـ sitemap بيسرد كلهم للفهرسة.
 export async function generateStaticParams() {
-  const { data } = await getProducts({ per_page: 1000 });
-  return data.map((p) => ({ slug: `${p.id}-${p.slug}` }));
+  return [];
 }
 
 const AVAIL_LABEL: Record<Availability, string> = {

@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import { getProducts, getCategories, getBrands } from "@/lib/erp";
+import { getAllProducts, getCategories, getBrands } from "@/lib/erp";
 import { productHref, categoryHref, brandHref } from "@/lib/urls";
 import { site } from "@/lib/site";
 
@@ -8,8 +8,8 @@ export const revalidate = 86400;
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const base = site.url.replace(/\/$/, "");
-  const [{ data: products }, categories, brands] = await Promise.all([
-    getProducts({ per_page: 1000 }),
+  const [products, categories, brands] = await Promise.all([
+    getAllProducts(),
     getCategories(),
     getBrands(),
   ]);

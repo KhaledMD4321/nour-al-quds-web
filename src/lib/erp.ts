@@ -207,6 +207,23 @@ export async function getFeaturedProducts(limit = 4): Promise<Product[]> {
   return data;
 }
 
+/**
+ * يجيب كل المنتجات المطابقة عبر الترقيم (per_page=100 — الحد الأقصى في العقد §5.1).
+ * لِـ sitemap وصفحة الفئة. ملاحظة: الفئات الكبيرة جداً هتحتاج ترقيم server-side لاحقاً.
+ */
+export async function getAllProducts(
+  params: ProductListParams = {},
+): Promise<Product[]> {
+  const per_page = 100;
+  const first = await getProducts({ ...params, per_page, page: 1 });
+  const all = [...first.data];
+  for (let page = 2; page <= first.meta.last_page; page++) {
+    const next = await getProducts({ ...params, per_page, page });
+    all.push(...next.data);
+  }
+  return all;
+}
+
 export async function getCategories(): Promise<Category[]> {
   if (DATA_SOURCE === "erp") {
     const res = await erpFetch<Paginated<Category>>(`/categories?per_page=100`);
