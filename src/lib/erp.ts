@@ -96,21 +96,51 @@ function mockProducts(params: ProductListParams): Paginated<Product> {
 }
 
 // ---------------------------------------------------------------------------
-// ERP source (real API — wired in Phase 4)
+// ERP source (real API — PublicApi module, api/v1/public)
 // ---------------------------------------------------------------------------
 
-async function erpFetch<T>(path: string): Promise<T> {
+/** خطأ من الـ ERP API — بيحمل الـ status علشان نفرّق 404 (منتج مش موجود) عن الأعطال المؤقتة. */
+export class ErpError extends Error {
+  constructor(
+    message: string,
+    readonly status?: number,
+  ) {
+    super(message);
+    this.name = "ErpError";
+  }
+}
+
+/** مهلة الاتصال بالـ ERP (ms) — نفشل بسرعة بدل ما الصفحة تعلّق. */
+const ERP_TIMEOUT_MS = Number(process.env.ERP_API_TIMEOUT_MS ?? 5000);
+
+/**
+ * degradation لطيف: الأعطال بتترمى (throw) — على صفحة مخزّنة بالـ ISR يخدم Next
+ * النسخة القديمة تلقائياً؛ وعلى بداية باردة يمسكها حدّ الخطأ (app/error.tsx) فمفيش صفحة مكسورة.
+ */
+async function erpFetch<T>(path: string, opts: { noStore?: boolean } = {}): Promise<T> {
   const base = process.env.ERP_API_URL;
   const token = process.env.ERP_API_TOKEN;
   if (!base || !token) {
-    throw new Error("ERP_API_URL / ERP_API_TOKEN غير مضبوطين (DATA_SOURCE=erp).");
+    throw new ErpError("ERP_API_URL / ERP_API_TOKEN غير مضبوطين (DATA_SOURCE=erp).");
   }
-  const res = await fetch(`${base}${path}`, {
-    headers: { Authorization: `Bearer ${token}`, Accept: "application/json" },
-    next: { revalidate: REVALIDATE },
-  });
-  if (!res.ok) throw new Error(`ERP API ${res.status} @ ${path}`);
-  return res.json() as Promise<T>;
+
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), ERP_TIMEOUT_MS);
+  try {
+    const res = await fetch(`${base.replace(/\/$/, "")}${path}`, {
+      headers: { Authorization: `Bearer ${token}`, Accept: "application/json" },
+      signal: controller.signal,
+      ...(opts.noStore
+        ? { cache: "no-store" as const }
+        : { next: { revalidate: REVALIDATE } }),
+    });
+    if (!res.ok) {
+      throw new ErpError(`ERP API ${res.status} @ ${path}`, res.status);
+    }
+    return (await res.json()) as T;
+  } finally {
+    clearTimeout(timer);
+  }
 }
 
 function buildQuery(params: ProductListParams): string {
@@ -140,7 +170,10 @@ export async function searchProducts(
   params: ProductListParams = {},
 ): Promise<Paginated<Product>> {
   if (DATA_SOURCE === "erp") {
-    return erpFetch<Paginated<Product>>(`/search${buildQuery({ ...params, q })}`);
+    // البحث لا يُخزّن (نتائج لحظية) لكنه يظل server-rendered
+    return erpFetch<Paginated<Product>>(`/search${buildQuery({ ...params, q })}`, {
+      noStore: true,
+    });
   }
   return mockProducts({ ...params, q });
 }
@@ -150,8 +183,9 @@ export async function getProduct(id: number): Promise<ProductDetail | null> {
     try {
       const res = await erpFetch<{ data: ProductDetail }>(`/products/${id}`);
       return res.data;
-    } catch {
-      return null;
+    } catch (e) {
+      if (e instanceof ErpError && e.status === 404) return null; // منتج مش موجود فعلاً
+      throw e; // عطل مؤقت → خلّي ISR يخدم النسخة المخزّنة / حدّ الخطأ يمسكها
     }
   }
   const p = ALL_PRODUCTS.find((x) => x.id === id);
