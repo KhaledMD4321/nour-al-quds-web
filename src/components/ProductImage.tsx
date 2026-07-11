@@ -2,13 +2,15 @@
 
 import { useState } from "react";
 import { ProductTypeArt } from "./ProductTypeArt";
+import { detectProductType } from "@/lib/productType";
 
 /**
- * سلسلة صور المنتج (per API_CONTRACT / website-CLAUDE):
+ * سلسلة صور المنتج (تجرَّب بالترتيب، وأي فشل ينتقل للتالي):
  *   1) image_url من الـ API
- *   2) resolver محلي: /img/{brandSlug}/{code}.webp
- *   3) رسمة توضيحية حسب نوع المنتج (كوع/ماسورة/تي…) على الهوية
- * إضافة ملف صورة لاحقاً "تشتغل" أوتوماتيكياً بدون تغيير بيانات.
+ *   2) صورة المنتج بالكود:  /img/{brandSlug}/{code}.webp
+ *   3) صورة حقيقية بالنوع:  /img/types/{type}.webp   ← ارفع ~15 صورة تغطّي الكل
+ *   4) رسمة توضيحية حسب النوع (دايماً كخلفية)
+ * إضافة أي ملف صورة لاحقاً «تشتغل» أوتوماتيكياً بدون تغيير كود أو بيانات.
  */
 export function ProductImage({
   imageUrl,
@@ -21,21 +23,26 @@ export function ProductImage({
   code: string | null;
   name: string;
 }) {
-  const candidate =
-    imageUrl ?? (brandSlug && code ? `/img/${brandSlug}/${code}.webp` : null);
-  const [failed, setFailed] = useState(false);
-  const showReal = Boolean(candidate) && !failed;
+  const type = detectProductType(name);
+  const candidates = [
+    imageUrl,
+    brandSlug && code ? `/img/${brandSlug}/${code}.webp` : null,
+    `/img/types/${type}.webp`,
+  ].filter((x): x is string => Boolean(x));
+
+  const [idx, setIdx] = useState(0);
+  const current = candidates[idx] ?? null;
 
   return (
     <>
-      {showReal && (
+      {current && (
         // eslint-disable-next-line @next/next/no-img-element
         <img
           className="real"
-          src={candidate as string}
+          src={current}
           alt={name}
           loading="lazy"
-          onError={() => setFailed(true)}
+          onError={() => setIdx((i) => i + 1)}
         />
       )}
       <span className="ph">

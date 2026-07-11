@@ -8,6 +8,7 @@ import type {
 } from "@/types/erp";
 import { normalizeArabic } from "@/lib/arabic";
 import { categoryDisplayName } from "@/lib/categoryNames";
+import { brandStage, STAGES, type StageGroup } from "@/lib/stages";
 import productsData from "../../fixtures/products.json";
 import categoriesData from "../../fixtures/categories.json";
 import brandsData from "../../fixtures/brands.json";
@@ -288,4 +289,16 @@ export async function getCatalogByBrand(): Promise<
       ),
     }))
     .sort((a, b) => b.brand.products_count - a.brand.products_count);
+}
+
+/**
+ * الكتالوج مجمّعاً «مرحلة (تأسيس/تشطيب) ← مصنّع ← فئاته» — بنية sebakashop.
+ * المرحلة مشتقّة من المصنّع (lib/stages). مراحل بلا مصنّعين تظهر كـ «قريباً».
+ */
+export async function getCatalogByStage(): Promise<StageGroup[]> {
+  const byBrand = await getCatalogByBrand();
+  return STAGES.map((stage) => ({
+    stage,
+    groups: byBrand.filter((g) => brandStage(g.brand.slug) === stage),
+  }));
 }

@@ -156,6 +156,13 @@ section { position: relative; }
 .mfr__all:hover { text-decoration: underline; }
 @media (max-width: 640px) { .mfr__head { flex-direction: column; align-items: flex-start; gap: 8px; } }
 
+/* stage sections (تأسيس / تشطيب) — بنية أعلى فوق المصنّع */
+.stage { margin-bottom: 48px; }
+.stage__head { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; margin-bottom: 24px; padding-bottom: 12px; border-bottom: 3px solid var(--navy-800); }
+.stage__name { margin: 0; font-size: 26px; font-weight: 900; color: var(--navy-800); }
+.stage__intro { font-size: 14px; color: var(--text-muted); }
+.stage__soon { padding: 30px; text-align: center; color: var(--text-muted); font-weight: 700; background: var(--stone-100); border: 1px dashed var(--stone-300); border-radius: 14px; }
+
 /* product cards */
 .prods { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
 .prods--3 { grid-template-columns: repeat(3, 1fr); }

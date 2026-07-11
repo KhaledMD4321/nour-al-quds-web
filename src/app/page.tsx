@@ -9,7 +9,8 @@ import {
   Handshake,
   FileText,
 } from "lucide-react";
-import { getCatalogByBrand, getFeaturedProducts } from "@/lib/erp";
+import { getCatalogByStage, getFeaturedProducts } from "@/lib/erp";
+import { STAGE_INTRO } from "@/lib/stages";
 import { ProductCard } from "@/components/ProductCard";
 import { CategoryTile } from "@/components/CategoryTile";
 import { SectionHead } from "@/components/SectionHead";
@@ -20,11 +21,11 @@ import { site, waLink } from "@/lib/site";
 export const revalidate = 300;
 
 export default async function HomePage() {
-  const [catalog, featured] = await Promise.all([
-    getCatalogByBrand(),
+  const [catalogByStage, featured] = await Promise.all([
+    getCatalogByStage(),
     getFeaturedProducts(4),
   ]);
-  const brands = catalog.map((g) => g.brand);
+  const brands = catalogByStage.flatMap((s) => s.groups.map((g) => g.brand));
 
   return (
     <main className="flex-1">
@@ -132,34 +133,47 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* CATEGORIES — مجمّعة حسب المصنّع */}
+      {/* CATALOG — مرحلة (تأسيس/تشطيب) ← مصنّع ← فئاته */}
       <section id="categories" className="sec wrap" style={{ paddingTop: 0 }}>
         <SectionHead
-          eyebrow="Browse by Manufacturer"
-          title="تصفّح حسب المصنّع"
-          note="كل مصنّع وتصنيفاته — اختر المصنّع ثم الفئة اللي محتاجها."
+          eyebrow="Browse the Catalog"
+          title="تصفّح الكتالوج"
+          note="حسب المرحلة ثم المصنّع ثم الفئة — تقسيمة واضحة زي أكبر متاجر الأدوات الصحية."
         />
-        <div className="mfrs">
-          {catalog.map(({ brand, categories }) => (
-            <div key={brand.id} className="mfr">
-              <div className="mfr__head">
-                <h3 className="mfr__name">
-                  {brand.name}
-                  {brand.name.includes("نصار") && <span className="tag">وكيل حصري</span>}
-                  <span className="mfr__ct num">{brand.products_count} صنف</span>
-                </h3>
-                <Link className="mfr__all" href={brandHref(brand)}>
-                  كل منتجات {brand.name} <ArrowLeft aria-hidden="true" />
-                </Link>
-              </div>
-              <div className="cats">
-                {categories.map((c) => (
-                  <CategoryTile key={c.id} category={c} />
+        {catalogByStage.map(({ stage, groups }) => (
+          <div key={stage} className="stage">
+            <div className="stage__head">
+              <h2 className="stage__name">{stage}</h2>
+              <span className="stage__intro">{STAGE_INTRO[stage]}</span>
+            </div>
+
+            {groups.length > 0 ? (
+              <div className="mfrs">
+                {groups.map(({ brand, categories }) => (
+                  <div key={brand.id} className="mfr">
+                    <div className="mfr__head">
+                      <h3 className="mfr__name">
+                        {brand.name}
+                        {brand.name.includes("نصار") && <span className="tag">وكيل حصري</span>}
+                        <span className="mfr__ct num">{brand.products_count} صنف</span>
+                      </h3>
+                      <Link className="mfr__all" href={brandHref(brand)}>
+                        كل منتجات {brand.name} <ArrowLeft aria-hidden="true" />
+                      </Link>
+                    </div>
+                    <div className="cats">
+                      {categories.map((c) => (
+                        <CategoryTile key={c.id} category={c} />
+                      ))}
+                    </div>
+                  </div>
                 ))}
               </div>
-            </div>
-          ))}
-        </div>
+            ) : (
+              <div className="stage__soon">قريباً — نجهّز تشكيلة {stage} كاملة</div>
+            )}
+          </div>
+        ))}
       </section>
 
       {/* FEATURED */}
