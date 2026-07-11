@@ -14,6 +14,8 @@ export const site = {
   location: "الواسطى، بني سويف",
   shipping: "شحن لكل محافظات مصر",
   hours: "السبت–الخميس ٩ص–٨م",
+  // رابط خرائط جوجل — استعلام عام بالمنطقة؛ بدّله برابط الـ pin الدقيق للفرع لما يتوفر
+  mapsUrl: "https://maps.google.com/?q=" + encodeURIComponent("الواسطى بني سويف"),
   // أرقام placeholder — بدّلها بالأرقام الحقيقية
   phone: "+201000000000",
   phoneDisplay: "٠١٠٠ ٠٠٠ ٠٠٠٠",

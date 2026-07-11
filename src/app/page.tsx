@@ -166,15 +166,48 @@ export default async function HomePage() {
         </div>
       </section>
 
+      {/* STAGE QUESTION — دخول سريع بالسؤال (بتأسّس؟ بتشطّب؟) */}
+      <section className="sec wrap" style={{ paddingBottom: 0 }}>
+        <div className="qsplit">
+          <a className="qcard qcard--tasees" href="#stage-tasees">
+            <span className="qcard__q">بتأسّس السباكة؟</span>
+            <span className="qcard__a">
+              مواسير تغذية وصرف ووصلات من نصّار وEGIC وديما ثيرم — بأسعار الجملة
+            </span>
+            <span className="qcard__go">
+              اتفرّج على منتجات التأسيس <ArrowLeft aria-hidden="true" />
+            </span>
+          </a>
+          <a
+            className="qcard qcard--tashteeb"
+            href={waLink("السلام عليكم، بجهّز تشطيب حمام/مطبخ وحابب أعرف المتاح عندكم من أطقم وخلاطات.")}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <span className="qcard__q">بتشطّب حمامك؟</span>
+            <span className="qcard__a">
+              أطقم وخلاطات وأدوات صحية في المعرض — والتشكيلة قريباً أونلاين
+            </span>
+            <span className="qcard__go">
+              كلمنا واتساب دلوقتي <ArrowLeft aria-hidden="true" />
+            </span>
+          </a>
+        </div>
+      </section>
+
       {/* CATALOG — مرحلة (تأسيس/تشطيب) ← مصنّع ← فئاته */}
-      <section id="categories" className="sec wrap" style={{ paddingTop: 0 }}>
+      <section id="categories" className="sec wrap" style={{ paddingTop: 24 }}>
         <SectionHead
           eyebrow="Browse the Catalog"
           title="تصفّح الكتالوج"
           note="حسب المرحلة ثم المصنّع ثم الفئة — تقسيمة واضحة زي أكبر متاجر الأدوات الصحية."
         />
         {catalogByStage.map(({ stage, groups }) => (
-          <div key={stage} className="stage">
+          <div
+            key={stage}
+            id={stage === "تأسيس" ? "stage-tasees" : "stage-tashteeb"}
+            className="stage"
+          >
             <div className="stage__head">
               <h2 className="stage__name">{stage}</h2>
               <span className="stage__intro">{STAGE_INTRO[stage]}</span>

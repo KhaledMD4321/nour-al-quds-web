@@ -6,10 +6,10 @@ import { brandHref } from "@/lib/urls";
 import { site, waLink } from "@/lib/site";
 
 const COMPANY_LINKS = [
-  { label: "عن نور القدس", href: "/#trust" },
-  { label: "خدمات التوزيع", href: "/#audience" },
-  { label: "المقاولون والمشاريع", href: "/#audience" },
-  { label: "المعرض", href: "/#audience" },
+  { label: "عن نور القدس", href: "/about" },
+  { label: "المدونة", href: "/blog" },
+  { label: "الأسئلة الشائعة", href: "/faq" },
+  { label: "تواصل معنا", href: "/contact" },
   { label: "كل المنتجات", href: "/search" },
 ];
 

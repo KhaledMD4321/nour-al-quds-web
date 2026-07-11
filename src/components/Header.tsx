@@ -74,9 +74,15 @@ export function Header({ catalog }: { catalog: StageGroup[] }) {
               <CatalogTree catalog={catalog} />
             </div>
           </div>
-          <Link href="/#audience">التوزيع</Link>
-          <Link href="/#audience">المعرض</Link>
-          <Link href="/#trust">عن الشركة</Link>
+          <Link href="/blog" className={pathname.startsWith("/blog") ? "on" : ""}>
+            المدونة
+          </Link>
+          <Link href="/about" className={pathname === "/about" ? "on" : ""}>
+            عن الشركة
+          </Link>
+          <Link href="/contact" className={pathname === "/contact" ? "on" : ""}>
+            تواصل معنا
+          </Link>
         </nav>
 
         <div className="hdr__spacer" />
@@ -118,9 +124,18 @@ export function Header({ catalog }: { catalog: StageGroup[] }) {
           <Link href="/search" className={isActive("/search", pathname) ? "on" : ""}>
             كل المنتجات
           </Link>
-          <Link href="/#audience">التوزيع</Link>
-          <Link href="/#audience">المعرض</Link>
-          <Link href="/#trust">عن الشركة</Link>
+          <Link href="/blog" className={pathname.startsWith("/blog") ? "on" : ""}>
+            المدونة
+          </Link>
+          <Link href="/about" className={pathname === "/about" ? "on" : ""}>
+            عن الشركة
+          </Link>
+          <Link href="/faq" className={pathname === "/faq" ? "on" : ""}>
+            الأسئلة الشائعة
+          </Link>
+          <Link href="/contact" className={pathname === "/contact" ? "on" : ""}>
+            تواصل معنا
+          </Link>
 
           <div className="mmenu__cats">
             <CatalogTree catalog={catalog} />
