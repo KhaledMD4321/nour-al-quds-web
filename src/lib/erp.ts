@@ -7,6 +7,7 @@ import type {
   ProductListParams,
 } from "@/types/erp";
 import { normalizeArabic } from "@/lib/arabic";
+import { categoryDisplayName } from "@/lib/categoryNames";
 import productsData from "../../fixtures/products.json";
 import categoriesData from "../../fixtures/categories.json";
 import brandsData from "../../fixtures/brands.json";
@@ -50,6 +51,15 @@ function toListItem(p: ProductDetail): Product {
     currency: p.currency,
     image_url: p.image_url,
     updated_at: p.updated_at,
+  };
+}
+
+/** يطبّق الاسم المفهوم على فئة المنتج (عرض فقط — الـ slug/الـ id ثابتان). */
+function withProductCatName<T extends Product>(p: T): T {
+  if (!p.category) return p;
+  return {
+    ...p,
+    category: { ...p.category, name: categoryDisplayName(p.category.name) },
   };
 }
 
@@ -160,7 +170,8 @@ export async function getProducts(
   params: ProductListParams = {},
 ): Promise<Paginated<Product>> {
   if (DATA_SOURCE === "erp") {
-    return erpFetch<Paginated<Product>>(`/products${buildQuery(params)}`);
+    const res = await erpFetch<Paginated<Product>>(`/products${buildQuery(params)}`);
+    return { ...res, data: res.data.map(withProductCatName) };
   }
   return mockProducts(params);
 }
@@ -171,9 +182,10 @@ export async function searchProducts(
 ): Promise<Paginated<Product>> {
   if (DATA_SOURCE === "erp") {
     // البحث لا يُخزّن (نتائج لحظية) لكنه يظل server-rendered
-    return erpFetch<Paginated<Product>>(`/search${buildQuery({ ...params, q })}`, {
+    const res = await erpFetch<Paginated<Product>>(`/search${buildQuery({ ...params, q })}`, {
       noStore: true,
     });
+    return { ...res, data: res.data.map(withProductCatName) };
   }
   return mockProducts({ ...params, q });
 }
@@ -182,7 +194,7 @@ export async function getProduct(id: number): Promise<ProductDetail | null> {
   if (DATA_SOURCE === "erp") {
     try {
       const res = await erpFetch<{ data: ProductDetail }>(`/products/${id}`);
-      return res.data;
+      return withProductCatName(res.data);
     } catch (e) {
       if (e instanceof ErpError && e.status === 404) return null; // منتج مش موجود فعلاً
       throw e; // عطل مؤقت → خلّي ISR يخدم النسخة المخزّنة / حدّ الخطأ يمسكها
@@ -227,7 +239,7 @@ export async function getAllProducts(
 export async function getCategories(): Promise<Category[]> {
   if (DATA_SOURCE === "erp") {
     const res = await erpFetch<Paginated<Category>>(`/categories?per_page=100`);
-    return res.data;
+    return res.data.map((c) => ({ ...c, name: categoryDisplayName(c.name) }));
   }
   return ALL_CATEGORIES;
 }

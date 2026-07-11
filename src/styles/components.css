@@ -163,8 +163,9 @@ section { position: relative; }
 .pcard:hover { transform: translateY(-3px); box-shadow: var(--shadow-lift); border-color: var(--teal-300); }
 .pcard__media { position: relative; aspect-ratio: 4 / 3; background: linear-gradient(155deg, #14274a, #0f4e57); display: flex; align-items: center; justify-content: center; overflow: hidden; }
 .pcard__media::before { content: ""; position: absolute; inset: 0; background: url('/brand/pattern-arch.svg') center / 180px; opacity: 0.14; }
-.pcard__media .ph { position: relative; width: 38%; opacity: 0.92; }
+.pcard__media .ph { position: relative; display: block; width: 46%; color: rgba(246, 244, 239, 0.9); }
 .pcard__media .real { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.typeart { display: block; width: 100%; height: auto; }
 .pcard__brand { position: absolute; inset-block-start: 11px; inset-inline-start: 11px; background: rgba(255, 255, 255, 0.92); color: var(--navy-800); font-size: 12px; font-weight: 800; padding: 4px 10px; border-radius: 7px; z-index: 1; }
 .pcard .badge--abs { position: absolute; inset-block-start: 11px; inset-inline-end: 11px; background: rgba(246, 244, 239, 0.95); z-index: 1; }
 .pcard__body { padding: 16px; display: flex; flex-direction: column; gap: 9px; flex: 1; }
@@ -244,7 +245,7 @@ section { position: relative; }
 .pdp { display: grid; grid-template-columns: 1fr 1fr; gap: 44px; padding-bottom: 24px; align-items: start; }
 .pdp__main { aspect-ratio: 1; border-radius: var(--gw) var(--gw) 6px 6px; background: linear-gradient(155deg, #14274a, #0f4e57); display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative; border: 1px solid var(--border-subtle); }
 .pdp__main::before { content: ""; position: absolute; inset: 0; background: url('/brand/pattern-arch.svg') center / 260px; opacity: 0.13; }
-.pdp__main .ph { position: relative; width: 42%; }
+.pdp__main .ph { position: relative; display: block; width: 48%; color: rgba(246, 244, 239, 0.9); }
 .pdp__main .real { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 .pdp__thumbs { display: flex; gap: 12px; margin-top: 14px; }
 .pdp__thumb { width: 74px; height: 74px; border-radius: 12px; background: linear-gradient(155deg, #1d3766, #15707e); cursor: pointer; border: 2px solid transparent; opacity: 0.7; }

@@ -1,12 +1,13 @@
 "use client";
 
 import { useState } from "react";
+import { ProductTypeArt } from "./ProductTypeArt";
 
 /**
  * سلسلة صور المنتج (per API_CONTRACT / website-CLAUDE):
  *   1) image_url من الـ API
  *   2) resolver محلي: /img/{brandSlug}/{code}.webp
- *   3) placeholder على الهوية (رمز نور القدس على خلفية navy)
+ *   3) رسمة توضيحية حسب نوع المنتج (كوع/ماسورة/تي…) على الهوية
  * إضافة ملف صورة لاحقاً "تشتغل" أوتوماتيكياً بدون تغيير بيانات.
  */
 export function ProductImage({
@@ -37,13 +38,9 @@ export function ProductImage({
           onError={() => setFailed(true)}
         />
       )}
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        className="ph"
-        src="/brand/symbol_white.png"
-        alt=""
-        aria-hidden="true"
-      />
+      <span className="ph">
+        <ProductTypeArt name={name} />
+      </span>
     </>
   );
 }

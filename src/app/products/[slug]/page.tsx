@@ -5,6 +5,7 @@ import { getProduct, getRelatedProducts } from "@/lib/erp";
 import { productDescription } from "@/lib/content";
 import { parseIdFromParam, productHref, categoryHref, brandHref } from "@/lib/urls";
 import { ProductCard } from "@/components/ProductCard";
+import { ProductImage } from "@/components/ProductImage";
 import { Breadcrumb } from "@/components/Breadcrumb";
 import { Badge, availabilityMeta } from "@/components/Badge";
 import { WaIcon } from "@/components/WaIcon";
@@ -112,14 +113,12 @@ export default async function ProductPage({
         <div className="pdp" style={{ paddingTop: 14 }}>
           <div>
             <div className="pdp__main">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img className="ph" src="/brand/symbol_white.png" alt="" aria-hidden="true" />
-            </div>
-            <div className="pdp__thumbs">
-              <div className="pdp__thumb on" />
-              <div className="pdp__thumb" />
-              <div className="pdp__thumb" />
-              <div className="pdp__thumb" />
+              <ProductImage
+                imageUrl={product.image_url}
+                brandSlug={product.brand?.slug ?? null}
+                code={product.code}
+                name={product.name}
+              />
             </div>
           </div>
 
