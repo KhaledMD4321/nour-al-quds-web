@@ -4,6 +4,7 @@ import "./globals.css";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { WhatsAppFab } from "@/components/WhatsAppFab";
+import { getCatalogByStage } from "@/lib/erp";
 import { site } from "@/lib/site";
 
 // Alexandria — النظام كله (عناوين + متن + واجهة)
@@ -61,11 +62,13 @@ export const metadata: Metadata = {
   icons: { icon: "/favicon_256.png" },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const catalog = await getCatalogByStage();
+
   return (
     <html
       lang="ar"
@@ -73,7 +76,7 @@ export default function RootLayout({
       className={`${alexandria.variable} ${kufam.variable} ${plexMono.variable} ${cairo.variable} h-full`}
     >
       <body className="min-h-full flex flex-col">
-        <Header />
+        <Header catalog={catalog} />
         {children}
         <Footer />
         <WhatsAppFab />

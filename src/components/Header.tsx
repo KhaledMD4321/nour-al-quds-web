@@ -1,15 +1,16 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Phone, MapPin, Search, Menu, X } from "lucide-react";
+import { Phone, MapPin, Search, Menu, X, ChevronDown } from "lucide-react";
 import { WaIcon } from "./WaIcon";
+import { CatalogTree } from "./CatalogTree";
 import { site, waLink } from "@/lib/site";
+import type { StageGroup } from "@/lib/stages";
 
-const NAV = [
+const SIMPLE_NAV = [
   { label: "الرئيسية", href: "/" },
-  { label: "المنتجات", href: "/search" },
   { label: "التوزيع", href: "/#audience" },
   { label: "المعرض", href: "/#audience" },
   { label: "عن الشركة", href: "/#trust" },
@@ -21,9 +22,14 @@ function isActive(href: string, pathname: string): boolean {
   return false;
 }
 
-export function Header() {
+export function Header({ catalog }: { catalog: StageGroup[] }) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
+
+  // أغلق درج الموبايل تلقائياً عند أي انتقال بين الصفحات
+  useEffect(() => {
+    setOpen(false);
+  }, [pathname]);
 
   return (
     <header className="hdr">
@@ -54,11 +60,23 @@ export function Header() {
         </Link>
 
         <nav className="hdr__nav">
-          {NAV.map((n) => (
-            <Link key={n.label} href={n.href} className={isActive(n.href, pathname) ? "on" : ""}>
-              {n.label}
+          <Link href="/" className={isActive("/", pathname) ? "on" : ""}>
+            الرئيسية
+          </Link>
+          <div className="hdr__hasmenu">
+            <Link
+              href="/search"
+              className={isActive("/search", pathname) ? "on" : ""}
+            >
+              المنتجات <ChevronDown aria-hidden="true" className="caret" />
             </Link>
-          ))}
+            <div className="megapanel">
+              <CatalogTree catalog={catalog} />
+            </div>
+          </div>
+          <Link href="/#audience">التوزيع</Link>
+          <Link href="/#audience">المعرض</Link>
+          <Link href="/#trust">عن الشركة</Link>
         </nav>
 
         <div className="hdr__spacer" />
@@ -94,16 +112,19 @@ export function Header() {
             <Search aria-hidden="true" />
             <input name="q" placeholder="ابحث عن منتج أو كود…" aria-label="بحث" />
           </form>
-          {NAV.map((n) => (
-            <Link
-              key={n.label}
-              href={n.href}
-              className={isActive(n.href, pathname) ? "on" : ""}
-              onClick={() => setOpen(false)}
-            >
-              {n.label}
-            </Link>
-          ))}
+          <Link href="/" className={isActive("/", pathname) ? "on" : ""}>
+            الرئيسية
+          </Link>
+          <Link href="/search" className={isActive("/search", pathname) ? "on" : ""}>
+            كل المنتجات
+          </Link>
+          <Link href="/#audience">التوزيع</Link>
+          <Link href="/#audience">المعرض</Link>
+          <Link href="/#trust">عن الشركة</Link>
+
+          <div className="mmenu__cats">
+            <CatalogTree catalog={catalog} />
+          </div>
         </div>
       </div>
     </header>

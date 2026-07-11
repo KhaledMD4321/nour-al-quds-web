@@ -163,6 +163,34 @@ section { position: relative; }
 .stage__intro { font-size: 14px; color: var(--text-muted); }
 .stage__soon { padding: 30px; text-align: center; color: var(--text-muted); font-weight: 700; background: var(--stone-100); border: 1px dashed var(--stone-300); border-radius: 14px; }
 
+/* header catalog mega-menu */
+.hdr__hasmenu { position: relative; }
+.hdr__hasmenu > a { display: inline-flex; align-items: center; gap: 4px; }
+.hdr__hasmenu .caret { width: 15px; height: 15px; transition: transform 0.18s; }
+.hdr__hasmenu:hover .caret { transform: rotate(180deg); }
+.megapanel { position: absolute; inset-inline-start: 0; top: calc(100% + 8px); z-index: 60; min-width: 660px; max-width: 92vw; background: #fff; border: 1px solid var(--border-subtle); border-radius: 14px; box-shadow: var(--shadow-lift); padding: 22px 24px; opacity: 0; visibility: hidden; transform: translateY(6px); transition: opacity 0.16s, transform 0.16s, visibility 0.16s; }
+.hdr__hasmenu:hover .megapanel { opacity: 1; visibility: visible; transform: translateY(0); }
+
+/* catalog tree (used in mega-menu + shop sidebar + mobile drawer) */
+.ctree { display: flex; flex-direction: column; gap: 20px; }
+.ctree__stagename { font-size: 12px; font-weight: 800; color: var(--gold-500); letter-spacing: 0.04em; margin-bottom: 12px; }
+.ctree__brands { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+.ctree__brandname { display: block; font-size: 15px; font-weight: 800; color: var(--navy-800); text-decoration: none; margin-bottom: 9px; }
+.ctree__brandname:hover { color: var(--teal-600); }
+.ctree__brand ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+.ctree__brand ul a { font-size: 13.5px; color: var(--text-muted); text-decoration: none; }
+.ctree__brand ul a:hover { color: var(--teal-600); }
+
+/* shop layout: taxonomy sidebar + results */
+.shop { display: grid; grid-template-columns: 262px 1fr; gap: 28px; align-items: start; }
+.shop__side { position: sticky; top: 88px; background: #fff; border: 1px solid var(--border-subtle); border-radius: 14px; padding: 18px 18px 22px; max-height: calc(100vh - 110px); overflow-y: auto; }
+.shop__sidehead { font-size: 15px; font-weight: 800; color: var(--navy-800); margin-bottom: 14px; padding-bottom: 10px; border-bottom: 2px solid var(--border-subtle); }
+.shop__side .ctree__brands { grid-template-columns: 1fr; gap: 16px; }
+.shop__main { min-width: 0; }
+.mmenu__cats { margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--border-subtle); }
+.mmenu__cats .ctree__brands { grid-template-columns: 1fr; gap: 14px; }
+@media (max-width: 900px) { .shop { grid-template-columns: 1fr; } .shop__side { display: none; } }
+
 /* product cards */
 .prods { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
 .prods--3 { grid-template-columns: repeat(3, 1fr); }
