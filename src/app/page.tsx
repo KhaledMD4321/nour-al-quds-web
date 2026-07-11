@@ -39,8 +39,8 @@ export default async function HomePage() {
               المنتج المناسب، بقيمة مناسبة، <em>وتوريد تعتمد عليه</em>
             </h1>
             <p className="hero__sub">
-              مواسير ووصلات، أنظمة مياه، أطقم حمامات وخلاطات — بأسعار الجملة وتوريد سريع يغطّي
-              محافظة بني سويف بالكامل. للتجار والمقاولين والفنيين والأفراد.
+              مواسير ووصلات، أنظمة مياه، أطقم حمامات وخلاطات — بأسعار الجملة. مقرّنا الواسطى ببني
+              سويف، ونشحن لكل محافظات مصر. للتجار والمقاولين والفنيين والأفراد.
             </p>
             <div className="hero__cta">
               <Link className="btn btn--gold btn--lg" href="/search">
@@ -62,8 +62,8 @@ export default async function HomePage() {
               </div>
               <div className="x" />
               <div>
-                <div className="v">بني سويف</div>
-                <div className="l">تغطية كاملة</div>
+                <div className="v">كل مصر</div>
+                <div className="l">شحن وتوصيل</div>
               </div>
             </div>
           </div>
@@ -75,7 +75,7 @@ export default async function HomePage() {
                 <Truck aria-hidden="true" />
                 <div>
                   <b>توريد سريع للمشاريع والكميات</b>
-                  <span>تغطية كل مراكز المحافظة</span>
+                  <span>شحن وتوصيل لكل محافظات مصر</span>
                 </div>
               </div>
             </div>
@@ -204,7 +204,7 @@ export default async function HomePage() {
               <Truck aria-hidden="true" />
             </div>
             <div className="v">توريد سريع</div>
-            <div className="l">تغطية كل بني سويف</div>
+            <div className="l">شحن لكل محافظات مصر</div>
           </div>
           <div className="tstat">
             <div className="ic">

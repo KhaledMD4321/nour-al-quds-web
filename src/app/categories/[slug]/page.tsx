@@ -1,9 +1,10 @@
 import { notFound, redirect } from "next/navigation";
 import type { Metadata } from "next";
 import { getCategory, getCategories, getAllProducts } from "@/lib/erp";
-import { parseIdFromParam, categoryHref } from "@/lib/urls";
+import { parseIdFromParam, categoryHref, brandHref } from "@/lib/urls";
 import { Breadcrumb } from "@/components/Breadcrumb";
 import { CategoryBrowser } from "@/components/CategoryBrowser";
+import { site } from "@/lib/site";
 
 export const revalidate = 300;
 
@@ -55,17 +56,20 @@ export default async function CategoryPage({
         <Breadcrumb
           items={[
             { label: "الرئيسية", href: "/" },
-            { label: "المنتجات", href: "/search" },
+            category.brand
+              ? { label: category.brand.name, href: brandHref(category.brand) }
+              : { label: "المنتجات", href: "/search" },
             { label: category.name },
           ]}
         />
 
         <div className="catintro">
-          <span className="eyebrow">{category.slug}</span>
+          <span className="eyebrow">{category.brand?.name ?? "فئة"}</span>
           <h1>{category.name}</h1>
           <p>
-            تشكيلة {category.name} من نصّار و EGIC وديما ثيرم. اسأل عن السعر والتوافر لأي صنف
-            عبر واتساب.
+            تشكيلة {category.name}
+            {category.brand ? ` من ${category.brand.name}` : ""} المتوفّرة لدى نور القدس — بأسعار
+            الجملة و{site.shipping}. اسأل عن السعر والتوافر لأي صنف عبر واتساب.
           </p>
         </div>
 

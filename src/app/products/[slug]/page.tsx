@@ -2,7 +2,8 @@ import { notFound, redirect } from "next/navigation";
 import type { Metadata } from "next";
 import { FileText, Info } from "lucide-react";
 import { getProduct, getRelatedProducts } from "@/lib/erp";
-import { parseIdFromParam, productHref, categoryHref } from "@/lib/urls";
+import { productDescription } from "@/lib/content";
+import { parseIdFromParam, productHref, categoryHref, brandHref } from "@/lib/urls";
 import { ProductCard } from "@/components/ProductCard";
 import { Breadcrumb } from "@/components/Breadcrumb";
 import { Badge, availabilityMeta } from "@/components/Badge";
@@ -39,8 +40,7 @@ export async function generateMetadata({
   const title = product.brand ? `${product.name} — ${product.brand.name}` : product.name;
   return {
     title,
-    description:
-      product.description ?? `${product.name} من نور القدس — اسأل عن السعر والتوافر عبر واتساب.`,
+    description: product.description ?? productDescription(product),
     alternates: { canonical: productHref(product) },
   };
 }
@@ -62,6 +62,7 @@ export default async function ProductPage({
 
   const related = await getRelatedProducts(product.related_product_ids);
   const waMsg = waProductMessage(product.name, product.code);
+  const description = product.description ?? productDescription(product);
 
   // JSON-LD Product schema (offers فقط لو السعر ظاهر — دايماً مخفي هنا)
   const jsonLd = {
@@ -70,7 +71,7 @@ export default async function ProductPage({
     name: product.name,
     ...(product.brand ? { brand: { "@type": "Brand", name: product.brand.name } } : {}),
     sku: product.code,
-    ...(product.description ? { description: product.description } : {}),
+    description,
     ...(product.price_visibility && product.price != null
       ? {
           offers: {
@@ -98,6 +99,9 @@ export default async function ProductPage({
         <Breadcrumb
           items={[
             { label: "الرئيسية", href: "/" },
+            ...(product.brand
+              ? [{ label: product.brand.name, href: brandHref(product.brand) }]
+              : []),
             ...(product.category
               ? [{ label: product.category.name, href: categoryHref(product.category) }]
               : []),
@@ -130,7 +134,7 @@ export default async function ProductPage({
                 <span className="chip-gold">وكيل نصّار الحصري</span>
               )}
             </div>
-            {product.description && <p className="pdp__desc">{product.description}</p>}
+            <p className="pdp__desc">{description}</p>
 
             {product.specs.length > 0 && (
               <div className="specs">

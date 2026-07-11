@@ -1,15 +1,9 @@
 import Link from "next/link";
-import { MapPin, Phone, Clock } from "lucide-react";
+import { MapPin, Phone, Clock, Truck } from "lucide-react";
 import { WaIcon } from "./WaIcon";
+import { getBrands } from "@/lib/erp";
+import { brandHref } from "@/lib/urls";
 import { site, waLink } from "@/lib/site";
-
-const PRODUCT_LINKS = [
-  { label: "مواسير ووصلات", href: "/categories/1-pipes-fittings" },
-  { label: "أنظمة المياه", href: "/categories/2-water-systems" },
-  { label: "أطقم حمامات", href: "/categories/3-bathroom-sets" },
-  { label: "خلاطات وحنفيات", href: "/categories/4-mixers-taps" },
-  { label: "فلاتر مياه", href: "/categories/7-water-filters" },
-];
 
 const COMPANY_LINKS = [
   { label: "عن نور القدس", href: "/#trust" },
@@ -19,7 +13,8 @@ const COMPANY_LINKS = [
   { label: "كل المنتجات", href: "/search" },
 ];
 
-export function Footer() {
+export async function Footer() {
+  const brands = await getBrands();
   return (
     <footer className="ftr">
       <div className="wrap">
@@ -31,13 +26,16 @@ export function Footer() {
           </div>
 
           <div>
-            <h4>المنتجات</h4>
+            <h4>المصنّعون</h4>
             <ul>
-              {PRODUCT_LINKS.map((l) => (
-                <li key={l.label}>
-                  <Link href={l.href}>{l.label}</Link>
+              {brands.map((b) => (
+                <li key={b.id}>
+                  <Link href={brandHref(b)}>{b.name}</Link>
                 </li>
               ))}
+              <li>
+                <Link href="/search">كل المنتجات</Link>
+              </li>
             </ul>
           </div>
 
@@ -58,6 +56,11 @@ export function Footer() {
               <li>
                 <span className="ftr__row">
                   <MapPin aria-hidden="true" /> {site.location}
+                </span>
+              </li>
+              <li>
+                <span className="ftr__row">
+                  <Truck aria-hidden="true" /> {site.shipping}
                 </span>
               </li>
               <li>

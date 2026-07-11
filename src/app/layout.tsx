@@ -47,6 +47,8 @@ export const metadata: Metadata = {
     "مواسير",
     "خلاطات",
     "بني سويف",
+    "الواسطى",
+    "شحن لكل مصر",
     "نصّار",
   ],
   openGraph: {

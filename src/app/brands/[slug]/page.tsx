@@ -1,9 +1,11 @@
 import { notFound, redirect } from "next/navigation";
 import type { Metadata } from "next";
 import { Download } from "lucide-react";
-import { getBrand, getBrands, getProducts } from "@/lib/erp";
+import { getBrand, getBrands, getCategories, getProducts } from "@/lib/erp";
 import { parseIdFromParam, brandHref } from "@/lib/urls";
 import { ProductCard } from "@/components/ProductCard";
+import { CategoryTile } from "@/components/CategoryTile";
+import { SectionHead } from "@/components/SectionHead";
 import { Breadcrumb } from "@/components/Breadcrumb";
 import { WaIcon } from "@/components/WaIcon";
 import { site, waLink } from "@/lib/site";
@@ -48,8 +50,12 @@ export default async function BrandPage({
   const canonical = `${brand.id}-${brand.slug}`;
   if (slug !== canonical) redirect(brandHref(brand));
 
-  const { data: products, meta } = await getProducts({ brand_id: id, per_page: 24 });
-  const isExclusive = brand.slug === "nassar";
+  const [{ data: products, meta }, allCategories] = await Promise.all([
+    getProducts({ brand_id: id, per_page: 24 }),
+    getCategories(),
+  ]);
+  const brandCategories = allCategories.filter((c) => c.brand?.id === brand.id);
+  const isExclusive = brand.name.includes("نصار");
 
   return (
     <main className="flex-1">
@@ -87,6 +93,17 @@ export default async function BrandPage({
             </a>
           )}
         </div>
+
+        {brandCategories.length > 0 && (
+          <section className="sec" style={{ paddingTop: 8 }}>
+            <SectionHead eyebrow="Categories" title={`فئات ${brand.name}`} />
+            <div className="cats">
+              {brandCategories.map((c) => (
+                <CategoryTile key={c.id} category={c} />
+              ))}
+            </div>
+          </section>
+        )}
 
         <div style={{ paddingBottom: 60 }}>
           <div className="toolbar">
