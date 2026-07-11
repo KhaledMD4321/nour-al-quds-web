@@ -55,6 +55,8 @@ export interface Category {
   slug: string;
   parent_id: number | null;
   products_count: number;
+  /** v1.1: المصنّع الغالب لمنتجات الفئة — للتجميع «مصنّع ← فئاته». قد يكون null. */
+  brand: BrandRef | null;
 }
 
 /** Brand (§4.4) */

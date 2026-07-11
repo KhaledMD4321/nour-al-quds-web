@@ -249,3 +249,31 @@ export async function getBrand(id: number): Promise<Brand | null> {
   const brands = await getBrands();
   return brands.find((b) => b.id === id) ?? null;
 }
+
+/**
+ * الكتالوج مجمّعاً «مصنّع ← فئاته» — كل فئة تخص مصنّعاً واحداً (category.brand).
+ * المصنّعون مرتّبون بعدد المنتجات تنازلياً، وفئات كل مصنّع كذلك.
+ */
+export async function getCatalogByBrand(): Promise<
+  { brand: Brand; categories: Category[] }[]
+> {
+  const [categories, brands] = await Promise.all([getCategories(), getBrands()]);
+
+  const byBrand = new Map<number, Category[]>();
+  for (const c of categories) {
+    if (!c.brand) continue;
+    const list = byBrand.get(c.brand.id) ?? [];
+    list.push(c);
+    byBrand.set(c.brand.id, list);
+  }
+
+  return brands
+    .filter((b) => byBrand.has(b.id))
+    .map((b) => ({
+      brand: b,
+      categories: (byBrand.get(b.id) ?? []).sort(
+        (x, y) => y.products_count - x.products_count,
+      ),
+    }))
+    .sort((a, b) => b.brand.products_count - a.brand.products_count);
+}

@@ -9,7 +9,7 @@ import {
   Handshake,
   FileText,
 } from "lucide-react";
-import { getCategories, getBrands, getFeaturedProducts } from "@/lib/erp";
+import { getCatalogByBrand, getFeaturedProducts } from "@/lib/erp";
 import { ProductCard } from "@/components/ProductCard";
 import { CategoryTile } from "@/components/CategoryTile";
 import { SectionHead } from "@/components/SectionHead";
@@ -20,11 +20,11 @@ import { site, waLink } from "@/lib/site";
 export const revalidate = 300;
 
 export default async function HomePage() {
-  const [categories, brands, featured] = await Promise.all([
-    getCategories(),
-    getBrands(),
+  const [catalog, featured] = await Promise.all([
+    getCatalogByBrand(),
     getFeaturedProducts(4),
   ]);
+  const brands = catalog.map((g) => g.brand);
 
   return (
     <main className="flex-1">
@@ -132,20 +132,32 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* CATEGORIES */}
+      {/* CATEGORIES — مجمّعة حسب المصنّع */}
       <section id="categories" className="sec wrap" style={{ paddingTop: 0 }}>
         <SectionHead
-          eyebrow="Product Categories"
-          title="تصفّح حسب الفئة"
-          action={
-            <Link className="btn btn--ghost" href="/search">
-              كل الفئات <ArrowLeft aria-hidden="true" />
-            </Link>
-          }
+          eyebrow="Browse by Manufacturer"
+          title="تصفّح حسب المصنّع"
+          note="كل مصنّع وتصنيفاته — اختر المصنّع ثم الفئة اللي محتاجها."
         />
-        <div className="cats">
-          {categories.map((c) => (
-            <CategoryTile key={c.id} category={c} />
+        <div className="mfrs">
+          {catalog.map(({ brand, categories }) => (
+            <div key={brand.id} className="mfr">
+              <div className="mfr__head">
+                <h3 className="mfr__name">
+                  {brand.name}
+                  {brand.name.includes("نصار") && <span className="tag">وكيل حصري</span>}
+                  <span className="mfr__ct num">{brand.products_count} صنف</span>
+                </h3>
+                <Link className="mfr__all" href={brandHref(brand)}>
+                  كل منتجات {brand.name} <ArrowLeft aria-hidden="true" />
+                </Link>
+              </div>
+              <div className="cats">
+                {categories.map((c) => (
+                  <CategoryTile key={c.id} category={c} />
+                ))}
+              </div>
+            </div>
           ))}
         </div>
       </section>
@@ -171,7 +183,7 @@ export default async function HomePage() {
           {brands.map((b) => (
             <Link key={b.id} className="brand" href={brandHref(b)}>
               {b.name}
-              {b.slug === "nassar" && <span className="tag">وكيل حصري</span>}
+              {b.name.includes("نصار") && <span className="tag">وكيل حصري</span>}
             </Link>
           ))}
         </div>
