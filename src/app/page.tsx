@@ -8,6 +8,7 @@ import {
   ShieldCheck,
   Handshake,
   FileText,
+  Store,
 } from "lucide-react";
 import { getCatalogByStage, getFeaturedProducts } from "@/lib/erp";
 import { STAGE_INTRO } from "@/lib/stages";
@@ -80,6 +81,38 @@ export default async function HomePage() {
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* BENEFITS STRIP */}
+      <section className="wrap benefits">
+        <div className="benefit">
+          <span className="benefit__ic"><Truck aria-hidden="true" /></span>
+          <div>
+            <b>شحن لكل محافظات مصر</b>
+            <span>توصيل سريع للطلبات والكميات</span>
+          </div>
+        </div>
+        <div className="benefit">
+          <span className="benefit__ic"><Store aria-hidden="true" /></span>
+          <div>
+            <b>استلام من الفرع</b>
+            <span>الواسطى، بني سويف</span>
+          </div>
+        </div>
+        <div className="benefit">
+          <span className="benefit__ic"><ShieldCheck aria-hidden="true" /></span>
+          <div>
+            <b>منتجات أصلية</b>
+            <span>علامات موثوقة بمواصفات صحيحة</span>
+          </div>
+        </div>
+        <div className="benefit">
+          <span className="benefit__ic"><WaIcon /></span>
+          <div>
+            <b>دعم واتساب فوري</b>
+            <span>أسعار وتوافر لحظي</span>
           </div>
         </div>
       </section>
