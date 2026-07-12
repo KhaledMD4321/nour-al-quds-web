@@ -74,11 +74,14 @@ export function Header({ catalog }: { catalog: StageGroup[] }) {
               <CatalogTree catalog={catalog} />
             </div>
           </div>
+          <Link href="/distribution" className={pathname === "/distribution" ? "on" : ""}>
+            التوزيع
+          </Link>
+          <Link href="/showroom" className={pathname === "/showroom" ? "on" : ""}>
+            المعرض
+          </Link>
           <Link href="/blog" className={pathname.startsWith("/blog") ? "on" : ""}>
             المدونة
-          </Link>
-          <Link href="/about" className={pathname === "/about" ? "on" : ""}>
-            عن الشركة
           </Link>
           <Link href="/contact" className={pathname === "/contact" ? "on" : ""}>
             تواصل معنا
@@ -123,6 +126,12 @@ export function Header({ catalog }: { catalog: StageGroup[] }) {
           </Link>
           <Link href="/search" className={isActive("/search", pathname) ? "on" : ""}>
             كل المنتجات
+          </Link>
+          <Link href="/distribution" className={pathname === "/distribution" ? "on" : ""}>
+            التوزيع والجملة
+          </Link>
+          <Link href="/showroom" className={pathname === "/showroom" ? "on" : ""}>
+            المعرض
           </Link>
           <Link href="/blog" className={pathname.startsWith("/blog") ? "on" : ""}>
             المدونة

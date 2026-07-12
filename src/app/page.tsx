@@ -136,8 +136,8 @@ export default async function HomePage() {
                 والمشاريع في كل أنحاء المحافظة.
               </p>
               <div className="aud__btns">
-                <Link className="btn btn--gold" href="/search">
-                  خدمات التوزيع
+                <Link className="btn btn--gold" href="/distribution">
+                  اعرف خدمات التوزيع
                 </Link>
                 <a className="btn btn--lighton" href={waLink()} target="_blank" rel="noopener noreferrer">
                   تواصل مع مندوب
@@ -155,8 +155,8 @@ export default async function HomePage() {
                 المنتجات المناسبة لبيتك.
               </p>
               <div className="aud__btns">
-                <Link className="btn btn--gold" href="/search">
-                  جهّز منزلك
+                <Link className="btn btn--gold" href="/showroom">
+                  اعرف خدمة المعرض
                 </Link>
                 <a className="btn btn--lighton" href={waLink()} target="_blank" rel="noopener noreferrer">
                   احجز زيارة

@@ -54,6 +54,9 @@ export default function AboutPage() {
                     جملة للتجار والمقاولين والمشاريع: مخزون قوي، تسعير تنافسي للكميات،
                     وتوريد سريع يغطي مواعيد التنفيذ.
                   </p>
+                  <Link className="mfr__all" href="/distribution">
+                    تفاصيل خدمة التوزيع <ArrowLeft aria-hidden="true" />
+                  </Link>
                 </div>
               </div>
               <div className="about__unit">
@@ -64,6 +67,9 @@ export default function AboutPage() {
                     للأفراد اللي بيجهّزوا أو بيشطّبوا بيوتهم: مساعدة حقيقية في الاختيار،
                     ونفس جودة وأسعار الجملة.
                   </p>
+                  <Link className="mfr__all" href="/showroom">
+                    تفاصيل خدمة المعرض <ArrowLeft aria-hidden="true" />
+                  </Link>
                 </div>
               </div>
             </div>

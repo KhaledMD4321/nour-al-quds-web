@@ -7,11 +7,12 @@ import { site, waLink } from "@/lib/site";
 
 const COMPANY_LINKS = [
   { label: "عن نور القدس", href: "/about" },
+  { label: "التوزيع والجملة", href: "/distribution" },
+  { label: "المعرض", href: "/showroom" },
   { label: "الأكثر طلباً", href: "/best-sellers" },
   { label: "المدونة", href: "/blog" },
   { label: "الأسئلة الشائعة", href: "/faq" },
   { label: "تواصل معنا", href: "/contact" },
-  { label: "كل المنتجات", href: "/search" },
 ];
 
 export async function Footer() {
