@@ -17,7 +17,7 @@ import { ProductCard } from "@/components/ProductCard";
 import { CategoryTile } from "@/components/CategoryTile";
 import { SectionHead } from "@/components/SectionHead";
 import { WaIcon } from "@/components/WaIcon";
-import { brandHref } from "@/lib/urls";
+import { brandHref, categoryHref } from "@/lib/urls";
 import { site, waLink } from "@/lib/site";
 
 export const revalidate = 300;
@@ -228,11 +228,28 @@ export default async function HomePage() {
                         كل منتجات {brand.name} <ArrowLeft aria-hidden="true" />
                       </Link>
                     </div>
+                    {/* أشهر ٤ فئات ككروت، والباقي في قائمة منسدلة خفيفة */}
                     <div className="cats">
-                      {categories.map((c) => (
+                      {categories.slice(0, 4).map((c) => (
                         <CategoryTile key={c.id} category={c} />
                       ))}
                     </div>
+                    {categories.length > 4 && (
+                      <details className="morecats">
+                        <summary>
+                          عرض باقي فئات {brand.name}
+                          <span className="num"> (+{categories.length - 4})</span>
+                        </summary>
+                        <div className="morecats__chips">
+                          {categories.slice(4).map((c) => (
+                            <Link key={c.id} className="chipcat" href={categoryHref(c)}>
+                              {c.name}
+                              <span className="num">{c.products_count}</span>
+                            </Link>
+                          ))}
+                        </div>
+                      </details>
+                    )}
                   </div>
                 ))}
               </div>
