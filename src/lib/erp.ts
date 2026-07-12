@@ -99,6 +99,9 @@ function mockProducts(params: ProductListParams): Paginated<Product> {
 
   if (params.sort === "name") {
     items.sort((a, b) => a.name.localeCompare(b.name, "ar"));
+  } else if (params.sort === "best_selling") {
+    // الـ mock مالوش بيانات مبيعات — ترتيب ثابت بالـ id كبديل حتمي
+    items.sort((a, b) => a.id - b.id);
   } else {
     items.sort((a, b) => b.updated_at.localeCompare(a.updated_at)); // newest
   }

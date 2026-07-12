@@ -86,7 +86,8 @@ export interface ProductListParams {
   category_id?: number;
   brand_id?: number;
   availability?: Availability;
-  sort?: "newest" | "name";
+  /** v1.1: best_selling = ترتيب بحجم المبيعات الفعلي (بدون كشف أرقام) */
+  sort?: "newest" | "name" | "best_selling";
   updated_since?: string;
   q?: string;
 }

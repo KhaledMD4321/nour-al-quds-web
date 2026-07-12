@@ -10,8 +10,9 @@ import {
   FileText,
   Store,
 } from "lucide-react";
-import { getCatalogByStage, getFeaturedProducts } from "@/lib/erp";
+import { getCatalogByStage, getProducts } from "@/lib/erp";
 import { STAGE_INTRO } from "@/lib/stages";
+import { HOME_FAQS } from "@/lib/faqs";
 import { ProductCard } from "@/components/ProductCard";
 import { CategoryTile } from "@/components/CategoryTile";
 import { SectionHead } from "@/components/SectionHead";
@@ -22,9 +23,9 @@ import { site, waLink } from "@/lib/site";
 export const revalidate = 300;
 
 export default async function HomePage() {
-  const [catalogByStage, featured] = await Promise.all([
+  const [catalogByStage, { data: bestSellers }] = await Promise.all([
     getCatalogByStage(),
-    getFeaturedProducts(4),
+    getProducts({ sort: "best_selling", per_page: 4 }),
   ]);
   const brands = catalogByStage.flatMap((s) => s.groups.map((g) => g.brand));
 
@@ -242,15 +243,20 @@ export default async function HomePage() {
         ))}
       </section>
 
-      {/* FEATURED */}
+      {/* BEST SELLERS — من مبيعات حقيقية */}
       <section className="sec wrap" style={{ paddingTop: 0 }}>
         <SectionHead
-          eyebrow="New & Featured"
-          title="منتجات مختارة"
-          note="الأسعار تتغيّر حسب السوق — اسأل عبر واتساب لمعرفة السعر الحالي."
+          eyebrow="Best Sellers"
+          title="الأكثر طلباً"
+          note="الأصناف الأكثر طلباً فعلاً من عملائنا — الترتيب من حركة البيع الحقيقية."
+          action={
+            <Link className="btn btn--ghost" href="/best-sellers">
+              شوف الكل <ArrowLeft aria-hidden="true" />
+            </Link>
+          }
         />
         <div className="prods">
-          {featured.map((p) => (
+          {bestSellers.map((p) => (
             <ProductCard key={p.id} product={p} />
           ))}
         </div>
@@ -300,6 +306,27 @@ export default async function HomePage() {
             <div className="v">منذ {site.since}</div>
             <div className="l">خبرة في السوق المحلي</div>
           </div>
+        </div>
+      </section>
+
+      {/* FAQ — أهم الأسئلة (الكل في /faq) */}
+      <section className="sec wrap" style={{ paddingTop: 0 }}>
+        <SectionHead
+          eyebrow="FAQ"
+          title="أسئلة بتتكرر علينا"
+          action={
+            <Link className="btn btn--ghost" href="/faq">
+              كل الأسئلة <ArrowLeft aria-hidden="true" />
+            </Link>
+          }
+        />
+        <div className="faq faq--home">
+          {HOME_FAQS.map((f, i) => (
+            <details key={i} className="faq__item" open={i === 0}>
+              <summary>{f.q}</summary>
+              <p>{f.a}</p>
+            </details>
+          ))}
         </div>
       </section>
 
