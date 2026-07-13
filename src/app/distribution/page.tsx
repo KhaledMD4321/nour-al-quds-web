@@ -7,7 +7,6 @@ import {
   ClipboardCheck,
   PackageSearch,
   Handshake,
-  BadgeCheck,
   FileText,
   ArrowLeft,
 } from "lucide-react";

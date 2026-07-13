@@ -7,10 +7,10 @@ import { parseIdFromParam, productHref, categoryHref, brandHref } from "@/lib/ur
 import { ProductCard } from "@/components/ProductCard";
 import { ProductImage } from "@/components/ProductImage";
 import { Breadcrumb } from "@/components/Breadcrumb";
-import { Badge, availabilityMeta } from "@/components/Badge";
+import { Badge } from "@/components/Badge";
 import { WaIcon } from "@/components/WaIcon";
 import { SectionHead } from "@/components/SectionHead";
-import { site, waLink, waProductMessage } from "@/lib/site";
+import { waLink, waProductMessage } from "@/lib/site";
 import type { Availability } from "@/types/erp";
 
 export const revalidate = 300;

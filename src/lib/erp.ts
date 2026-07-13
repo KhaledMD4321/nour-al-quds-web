@@ -218,11 +218,6 @@ export async function getRelatedProducts(ids: number[]): Promise<Product[]> {
   return ALL_PRODUCTS.filter((p) => ids.includes(p.id)).map(toListItem);
 }
 
-export async function getFeaturedProducts(limit = 4): Promise<Product[]> {
-  const { data } = await getProducts({ sort: "newest", per_page: limit });
-  return data;
-}
-
 /**
  * يجيب كل المنتجات المطابقة عبر الترقيم (per_page=100 — الحد الأقصى في العقد §5.1).
  * لِـ sitemap وصفحة الفئة. ملاحظة: الفئات الكبيرة جداً هتحتاج ترقيم server-side لاحقاً.

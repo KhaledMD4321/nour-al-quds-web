@@ -7,7 +7,6 @@ import {
   Wallet,
   Home,
   MessageCircleMore,
-  FileText,
   ArrowLeft,
 } from "lucide-react";
 import { Breadcrumb } from "@/components/Breadcrumb";

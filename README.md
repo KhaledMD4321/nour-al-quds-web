@@ -1,38 +1,53 @@
 # موقع نور القدس التعريفي
 
 الموقع التسويقي/التعريفي لشركة **نور القدس** لتوزيع الأدوات الصحية والسباكة في مصر.
-هدفه الأساسي جذب العملاء عبر البحث (SEO) وعرض المنتجات.
+هدفه الأساسي جذب العملاء عبر البحث (SEO) وعرض الكتالوج، مع توليد الطلبات عبر واتساب
+(مش متجر بيع أونلاين — لا أسعار ولا سلة).
 
 ## الصلة بنظام الـ ERP
 
-هذا مشروع **منفصل** عن نظام نور القدس ERP (Laravel/Filament في `C:\Projects\nour-al-quds`).
-المنتجات وأسعارها تُسحب من الـ ERP عبر endpoint عام للقراءة فقط، ويعيد الموقع التوليد
-دورياً (ISR) فتبقى الأسعار محدّثة دون تعريض قاعدة بيانات الـ ERP للنت العام.
+مشروع **منفصل** عن نظام نور القدس ERP (Laravel/Filament في `C:\Projects\nour-al-quds`).
+بيانات المنتجات والفئات والمصنّعين تُسحب من الـ ERP عبر **PublicApi** — واجهة عامة
+للقراءة فقط تحت `/api/v1/public`، ويعيد الموقع التوليد دورياً (ISR) فتبقى البيانات
+محدّثة دون تعريض قاعدة بيانات الـ ERP للنت العام. المتصفح لا يكلّم الـ ERP مطلقاً؛
+كل النداءات server-side بالتوكن.
 
-- عميل الربط: [`src/lib/erp.ts`](src/lib/erp.ts)
-- الأنواع: [`src/types/product.ts`](src/types/product.ts)
-- الإعداد: انسخ `.env.local.example` إلى `.env.local` واضبط `ERP_API_URL`
-
-> ملاحظة: الـ endpoint العام (`/api/public/products`) لم يُبنَ بعد في الـ ERP — يحتاج إضافة.
+- عميل الربط: [`src/lib/erp.ts`](src/lib/erp.ts) — يدعم `DATA_SOURCE=mock|erp`
+- الأنواع (مطابقة لعقد الـ API): [`src/types/erp.ts`](src/types/erp.ts)
+- محتوى الموقع القابل للتعديل مجمّع في `src/lib/`: `site.ts` (بيانات الشركة)،
+  `blog.ts` (المقالات)، `faqs.ts` (الأسئلة الشائعة)، `brandInfo.ts` (نبذة المصانع)
 
 ## التقنيات
 
 - Next.js 16 (App Router) + React 19
-- Tailwind CSS 4
+- Tailwind CSS 4 + نظام تصميم (tokens في `src/styles`)
 - TypeScript
-- خط Cairo + عربي RTL
+- خط Alexandria + عربي RTL
 
-## التشغيل
+## الإعداد والتشغيل
 
 ```bash
 npm install
-cp .env.local.example .env.local   # واضبط ERP_API_URL
-npm run dev                        # http://localhost:3000
+cp .env.example .env.local     # واضبط ERP_API_URL و ERP_API_TOKEN
+npm run dev                    # http://localhost:3000
 ```
 
-## البناء
+المتغيّرات المطلوبة موضّحة في [`.env.example`](.env.example).
+
+## الفحص والبناء
 
 ```bash
-npm run build
-npm run start
+npm run lint          # ESLint
+npx tsc --noEmit      # فحص الأنواع
+npm run build         # بناء الإنتاج (يحتاج الـ ERP شغّالاً لجلب الكتالوج)
+npm run start         # تشغيل نسخة الإنتاج
 ```
+
+> ملاحظة: صفحات المنتجات تُبنى عند الطلب (on-demand ISR) لأن الكتالوج كبير
+> (١٥٠٠+ صنف)؛ الباقي ثابت (SSG). لازم يكون الـ ERP متاحاً وقت `next build`.
+
+## النشر
+
+مناسب لـ **Vercel** (Next.js native). اضبط متغيّرات `.env.example` في إعدادات
+المشروع على الاستضافة، وتأكّد إن الـ ERP يفعّل `PUBLIC_API_ENABLED=true` وإن
+`ERP_API_URL` يشير للـ PublicApi الحقيقي المتاح لسيرفر الموقع فقط.

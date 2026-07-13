@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Phone, MapPin, Search, Menu, X, ChevronDown } from "lucide-react";
@@ -8,13 +8,6 @@ import { WaIcon } from "./WaIcon";
 import { CatalogTree } from "./CatalogTree";
 import { site, waLink } from "@/lib/site";
 import type { StageGroup } from "@/lib/stages";
-
-const SIMPLE_NAV = [
-  { label: "الرئيسية", href: "/" },
-  { label: "التوزيع", href: "/#audience" },
-  { label: "المعرض", href: "/#audience" },
-  { label: "عن الشركة", href: "/#trust" },
-];
 
 function isActive(href: string, pathname: string): boolean {
   if (href === "/") return pathname === "/";
@@ -26,10 +19,13 @@ export function Header({ catalog }: { catalog: StageGroup[] }) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
 
-  // أغلق درج الموبايل تلقائياً عند أي انتقال بين الصفحات
-  useEffect(() => {
+  // أغلق درج الموبايل تلقائياً عند أي انتقال بين الصفحات — بنمط تعديل الحالة
+  // أثناء الرندر (المُوصى به من React) بدل useEffect لتفادي رندر متتالي.
+  const [prevPath, setPrevPath] = useState(pathname);
+  if (pathname !== prevPath) {
+    setPrevPath(pathname);
     setOpen(false);
-  }, [pathname]);
+  }
 
   return (
     <header className="hdr">
