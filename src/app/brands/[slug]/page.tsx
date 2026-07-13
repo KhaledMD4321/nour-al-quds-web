@@ -1,7 +1,8 @@
 import { notFound, redirect } from "next/navigation";
 import type { Metadata } from "next";
-import { Download } from "lucide-react";
+import { Download, Globe, FileText, BadgeCheck, ExternalLink, PackageCheck } from "lucide-react";
 import { getBrand, getBrands, getCategories, getProducts } from "@/lib/erp";
+import { getBrandInfo, type BrandLinkKind } from "@/lib/brandInfo";
 import { parseIdFromParam, brandHref } from "@/lib/urls";
 import { ProductCard } from "@/components/ProductCard";
 import { CategoryTile } from "@/components/CategoryTile";
@@ -9,6 +10,12 @@ import { SectionHead } from "@/components/SectionHead";
 import { Breadcrumb } from "@/components/Breadcrumb";
 import { WaIcon } from "@/components/WaIcon";
 import { site, waLink } from "@/lib/site";
+
+const LINK_ICON: Record<BrandLinkKind, typeof Globe> = {
+  site: Globe,
+  catalog: FileText,
+  quality: BadgeCheck,
+};
 
 export const revalidate = 300;
 
@@ -56,6 +63,7 @@ export default async function BrandPage({
   ]);
   const brandCategories = allCategories.filter((c) => c.brand?.id === brand.id);
   const isExclusive = brand.name.includes("نصار");
+  const info = getBrandInfo(brand.slug);
 
   return (
     <main className="flex-1">
@@ -129,6 +137,69 @@ export default async function BrandPage({
             </div>
           )}
         </div>
+
+        {/* عن المصنّع — قسم ثانوي للزائر المهتم */}
+        {info && (
+          <section className="brandabout" aria-label={`عن ${brand.name}`}>
+            <div className="brandabout__head">
+              <span className="benefit__ic"><PackageCheck aria-hidden="true" /></span>
+              <div>
+                <h2>عن {brand.name}</h2>
+                <span className="brandabout__tag">{info.tagline}</span>
+              </div>
+            </div>
+
+            <div className="brandabout__body">
+              {info.paragraphs.map((p, i) => (
+                <p key={i}>{p}</p>
+              ))}
+            </div>
+
+            <div className="brandabout__cols">
+              <div>
+                <h3>خطوط الإنتاج والأنظمة</h3>
+                <ul>
+                  {info.lines.map((l, i) => (
+                    <li key={i}>{l}</li>
+                  ))}
+                </ul>
+              </div>
+              <div>
+                <h3>الجودة والثقة</h3>
+                <ul>
+                  {info.quality.map((q, i) => (
+                    <li key={i}>{q}</li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+
+            {info.links.length > 0 && (
+              <div className="brandabout__links">
+                {info.links.map((link, i) => {
+                  const Icon = LINK_ICON[link.kind];
+                  return (
+                    <a
+                      key={i}
+                      className="btn btn--outline btn--sm"
+                      href={link.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <Icon aria-hidden="true" /> {link.label}{" "}
+                      <ExternalLink aria-hidden="true" className="ext" />
+                    </a>
+                  );
+                })}
+              </div>
+            )}
+
+            <p className="brandabout__note">
+              كل منتجات {brand.name} المعروضة هنا أصلية وموردة من المصنّع مباشرة عبر نور القدس.
+              {brand.catalog_pdf_url ? "" : " للكتالوجات وشهادات الجودة التفصيلية، تواصل معنا عبر واتساب."}
+            </p>
+          </section>
+        )}
       </div>
     </main>
   );
