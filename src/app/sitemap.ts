@@ -20,6 +20,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${base}/`, lastModified: now, changeFrequency: "weekly", priority: 1 },
     // الصفحات الثابتة
     { url: `${base}/about`, lastModified: now, changeFrequency: "monthly", priority: 0.5 },
+    { url: `${base}/brands`, lastModified: now, changeFrequency: "weekly", priority: 0.7 },
     { url: `${base}/distribution`, lastModified: now, changeFrequency: "monthly", priority: 0.7 },
     { url: `${base}/showroom`, lastModified: now, changeFrequency: "monthly", priority: 0.7 },
     { url: `${base}/faq`, lastModified: now, changeFrequency: "monthly", priority: 0.5 },

@@ -71,7 +71,7 @@ export default async function BrandPage({
         <Breadcrumb
           items={[
             { label: "الرئيسية", href: "/" },
-            { label: "العلامات" },
+            { label: "العلامات التجارية", href: "/brands" },
             { label: brand.name },
           ]}
         />

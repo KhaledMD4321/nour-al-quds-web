@@ -7,6 +7,7 @@ import { site, waLink } from "@/lib/site";
 
 const COMPANY_LINKS = [
   { label: "عن نور القدس", href: "/about" },
+  { label: "العلامات التجارية", href: "/brands" },
   { label: "التوزيع والجملة", href: "/distribution" },
   { label: "المعرض", href: "/showroom" },
   { label: "الأكثر طلباً", href: "/best-sellers" },

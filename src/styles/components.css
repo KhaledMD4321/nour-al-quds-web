@@ -307,6 +307,21 @@ section { position: relative; }
 .brandabout__note { margin: 18px 0 0; padding-top: 16px; border-top: 1px dashed var(--stone-300); font-size: 13px; color: var(--text-muted); line-height: 1.8; }
 @media (max-width: 700px) { .brandabout__cols { grid-template-columns: 1fr; } }
 
+/* all-brands page grid */
+.brandgrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.brandcard { display: flex; flex-direction: column; gap: 10px; background: #fff; border: 1px solid var(--border-subtle); border-radius: 16px; padding: 24px 22px; text-decoration: none; transition: 0.18s; }
+.brandcard:hover { transform: translateY(-3px); box-shadow: var(--shadow-lift); border-color: var(--teal-300); text-decoration: none; }
+.brandcard__top { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.brandcard__ic { width: 48px; height: 48px; border-radius: 12px; background: var(--teal-050); color: var(--teal-600); display: flex; align-items: center; justify-content: center; }
+.brandcard__ic svg { width: 24px; height: 24px; }
+.brandcard h2 { margin: 4px 0 0; font-size: 21px; color: var(--navy-800); }
+.brandcard__tag { margin: 0; font-size: 13.5px; color: var(--text-muted); line-height: 1.7; flex: 1; }
+.brandcard__foot { display: flex; align-items: center; justify-content: space-between; margin-top: 6px; padding-top: 14px; border-top: 1px solid var(--border-subtle); }
+.brandcard__foot .num { font-size: 13px; font-weight: 700; color: var(--text-muted); }
+.brandcard__go { display: inline-flex; align-items: center; gap: 6px; font-size: 13.5px; font-weight: 800; color: var(--teal-600); }
+.brandcard__go svg { width: 15px; height: 15px; }
+@media (max-width: 900px) { .brandgrid { grid-template-columns: 1fr; } }
+
 /* product cards */
 .prods { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
 .prods--3 { grid-template-columns: repeat(3, 1fr); }
