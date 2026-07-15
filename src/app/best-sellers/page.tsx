@@ -3,7 +3,8 @@ import { getProducts } from "@/lib/erp";
 import { ProductCard } from "@/components/ProductCard";
 import { Breadcrumb } from "@/components/Breadcrumb";
 import { WaIcon } from "@/components/WaIcon";
-import { waLink } from "@/lib/site";
+import { buildWaLink } from "@/lib/site";
+import { getSiteConfig } from "@/lib/cms";
 
 export const revalidate = 300;
 
@@ -16,7 +17,12 @@ export const metadata: Metadata = {
 
 export default async function BestSellersPage() {
   // الترتيب من مبيعات حقيقية في نظام الشركة (بدون عرض أرقام)
-  const { data: products } = await getProducts({ sort: "best_selling", per_page: 24 });
+  const [{ data: products }, cfg] = await Promise.all([
+    getProducts({ sort: "best_selling", per_page: 24 }),
+    getSiteConfig(),
+  ]);
+  const waCfg = { number: cfg.whatsapp, defaultMessage: cfg.waDefaultMessage };
+  const waLink = () => buildWaLink(cfg.whatsapp, cfg.waDefaultMessage);
 
   return (
     <main className="flex-1">
@@ -38,7 +44,7 @@ export default async function BestSellersPage() {
           {products.length > 0 ? (
             <div className="prods prods--3">
               {products.map((p) => (
-                <ProductCard key={p.id} product={p} />
+                <ProductCard key={p.id} product={p} waCfg={waCfg} />
               ))}
             </div>
           ) : (

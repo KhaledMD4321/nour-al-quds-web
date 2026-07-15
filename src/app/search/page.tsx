@@ -5,7 +5,8 @@ import { ProductCard } from "@/components/ProductCard";
 import { CatalogTree } from "@/components/CatalogTree";
 import { Breadcrumb } from "@/components/Breadcrumb";
 import { WaIcon } from "@/components/WaIcon";
-import { waLink } from "@/lib/site";
+import { buildWaLink } from "@/lib/site";
+import { getSiteConfig } from "@/lib/cms";
 
 export const metadata: Metadata = {
   title: "المنتجات",
@@ -23,12 +24,15 @@ export default async function SearchPage({
   const query = (q ?? "").trim();
   const isSearching = normalizeArabic(query).length >= 2;
 
-  const [{ data: products, meta }, catalog] = await Promise.all([
+  const [{ data: products, meta }, catalog, cfg] = await Promise.all([
     isSearching
       ? searchProducts(query, { per_page: 48 })
       : getProducts({ per_page: 48 }),
     getCatalogByStage(),
+    getSiteConfig(),
   ]);
+  const waCfg = { number: cfg.whatsapp, defaultMessage: cfg.waDefaultMessage };
+  const waLink = () => buildWaLink(cfg.whatsapp, cfg.waDefaultMessage);
 
   const title = isSearching ? `نتائج البحث عن «${query}»` : "كل المنتجات";
 
@@ -59,7 +63,7 @@ export default async function SearchPage({
             {products.length > 0 ? (
               <div className="prods prods--3">
                 {products.map((p) => (
-                  <ProductCard key={p.id} product={p} />
+                  <ProductCard key={p.id} product={p} waCfg={waCfg} />
                 ))}
               </div>
             ) : (

@@ -5,13 +5,21 @@ import type { Product, Availability } from "@/types/erp";
 import { ProductCard } from "./ProductCard";
 import { availabilityMeta } from "./Badge";
 import { WaIcon } from "./WaIcon";
-import { site, waLink } from "@/lib/site";
+import { site, buildWaLink, waLink as staticWaLink, type WaConfig } from "@/lib/site";
 
 type SortKey = "newest" | "name";
 
 const AVAIL_ORDER: Availability[] = ["in_stock", "on_request", "out_of_stock"];
 
-export function CategoryBrowser({ products }: { products: Product[] }) {
+export function CategoryBrowser({
+  products,
+  waCfg,
+}: {
+  products: Product[];
+  waCfg?: WaConfig;
+}) {
+  const waLink = () =>
+    waCfg ? buildWaLink(waCfg.number, waCfg.defaultMessage) : staticWaLink();
   const [brands, setBrands] = useState<Set<number>>(new Set());
   const [avail, setAvail] = useState<Set<Availability>>(new Set());
   const [sort, setSort] = useState<SortKey>("newest");
@@ -126,7 +134,7 @@ export function CategoryBrowser({ products }: { products: Product[] }) {
         {shown.length > 0 ? (
           <div className="prods prods--3">
             {shown.map((p) => (
-              <ProductCard key={p.id} product={p} />
+              <ProductCard key={p.id} product={p} waCfg={waCfg} />
             ))}
           </div>
         ) : (

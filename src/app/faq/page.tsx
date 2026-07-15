@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import { Breadcrumb } from "@/components/Breadcrumb";
 import { WaIcon } from "@/components/WaIcon";
-import { FAQS } from "@/lib/faqs";
-import { waLink } from "@/lib/site";
+import { getFaqs, getSiteConfig } from "@/lib/cms";
+import { buildWaLink } from "@/lib/site";
+
+export const revalidate = 300;
 
 export const metadata: Metadata = {
   title: "الأسئلة الشائعة — إزاي تطلب من نور القدس",
@@ -11,11 +13,14 @@ export const metadata: Metadata = {
   alternates: { canonical: "/faq" },
 };
 
-export default function FaqPage() {
+export default async function FaqPage() {
+  const [faqs, cfg] = await Promise.all([getFaqs(), getSiteConfig()]);
+  const wa = buildWaLink(cfg.whatsapp, cfg.waDefaultMessage);
+
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    mainEntity: FAQS.map((f) => ({
+    mainEntity: faqs.map((f) => ({
       "@type": "Question",
       name: f.q,
       acceptedAnswer: { "@type": "Answer", text: f.a },
@@ -40,7 +45,7 @@ export default function FaqPage() {
         </div>
 
         <div className="faq" style={{ paddingBottom: 40 }}>
-          {FAQS.map((f, i) => (
+          {faqs.map((f, i) => (
             <details key={i} className="faq__item" open={i === 0}>
               <summary>{f.q}</summary>
               <p>{f.a}</p>
@@ -53,7 +58,7 @@ export default function FaqPage() {
             <b>سؤالك مش هنا؟</b>
             <span>ابعتهولنا على واتساب وهنرد عليك بسرعة.</span>
           </div>
-          <a className="btn btn--wa" href={waLink()} target="_blank" rel="noopener noreferrer">
+          <a className="btn btn--wa" href={wa} target="_blank" rel="noopener noreferrer">
             <WaIcon /> اسأل على واتساب
           </a>
         </div>

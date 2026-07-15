@@ -2,14 +2,15 @@ import { notFound, redirect } from "next/navigation";
 import type { Metadata } from "next";
 import { Download, Globe, FileText, BadgeCheck, ExternalLink, PackageCheck } from "lucide-react";
 import { getBrand, getBrands, getCategories, getProducts } from "@/lib/erp";
-import { getBrandInfo, type BrandLinkKind } from "@/lib/brandInfo";
+import { getCmsBrandInfo, getSiteConfig } from "@/lib/cms";
+import { type BrandLinkKind } from "@/lib/brandInfo";
 import { parseIdFromParam, brandHref } from "@/lib/urls";
 import { ProductCard } from "@/components/ProductCard";
 import { CategoryTile } from "@/components/CategoryTile";
 import { SectionHead } from "@/components/SectionHead";
 import { Breadcrumb } from "@/components/Breadcrumb";
 import { WaIcon } from "@/components/WaIcon";
-import { site, waLink } from "@/lib/site";
+import { buildWaLink } from "@/lib/site";
 
 const LINK_ICON: Record<BrandLinkKind, typeof Globe> = {
   site: Globe,
@@ -57,13 +58,16 @@ export default async function BrandPage({
   const canonical = `${brand.id}-${brand.slug}`;
   if (slug !== canonical) redirect(brandHref(brand));
 
-  const [{ data: products, meta }, allCategories] = await Promise.all([
+  const [{ data: products, meta }, allCategories, info, site] = await Promise.all([
     getProducts({ brand_id: id, per_page: 24 }),
     getCategories(),
+    getCmsBrandInfo(brand.slug),
+    getSiteConfig(),
   ]);
   const brandCategories = allCategories.filter((c) => c.brand?.id === brand.id);
   const isExclusive = brand.name.includes("نصار");
-  const info = getBrandInfo(brand.slug);
+  const waCfg = { number: site.whatsapp, defaultMessage: site.waDefaultMessage };
+  const waLink = () => buildWaLink(site.whatsapp, site.waDefaultMessage);
 
   return (
     <main className="flex-1">
@@ -124,7 +128,7 @@ export default async function BrandPage({
           {products.length > 0 ? (
             <div className="prods prods--3">
               {products.map((p) => (
-                <ProductCard key={p.id} product={p} />
+                <ProductCard key={p.id} product={p} waCfg={waCfg} />
               ))}
             </div>
           ) : (

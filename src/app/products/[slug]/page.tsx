@@ -10,7 +10,8 @@ import { Breadcrumb } from "@/components/Breadcrumb";
 import { Badge } from "@/components/Badge";
 import { WaIcon } from "@/components/WaIcon";
 import { SectionHead } from "@/components/SectionHead";
-import { waLink, waProductMessage } from "@/lib/site";
+import { getSiteConfig } from "@/lib/cms";
+import { buildWaLink, buildWaProductMessage } from "@/lib/site";
 import type { Availability } from "@/types/erp";
 
 export const revalidate = 300;
@@ -38,10 +39,11 @@ export async function generateMetadata({
   const id = parseIdFromParam(slug);
   const product = id ? await getProduct(id) : null;
   if (!product) return { title: "المنتج غير موجود" };
+  const cfg = await getSiteConfig();
   const title = product.brand ? `${product.name} — ${product.brand.name}` : product.name;
   return {
     title,
-    description: product.description ?? productDescription(product),
+    description: product.description ?? productDescription(product, cfg),
     alternates: { canonical: productHref(product) },
   };
 }
@@ -61,9 +63,15 @@ export default async function ProductPage({
   const canonical = `${product.id}-${product.slug}`;
   if (slug !== canonical) redirect(productHref(product));
 
-  const related = await getRelatedProducts(product.related_product_ids);
-  const waMsg = waProductMessage(product.name, product.code);
-  const description = product.description ?? productDescription(product);
+  const [related, cfg] = await Promise.all([
+    getRelatedProducts(product.related_product_ids),
+    getSiteConfig(),
+  ]);
+  const waCfg = { number: cfg.whatsapp, defaultMessage: cfg.waDefaultMessage };
+  const waMsg = buildWaProductMessage(cfg.waDefaultMessage, product.name, product.code);
+  const waLink = (message?: string) =>
+    buildWaLink(cfg.whatsapp, message ?? cfg.waDefaultMessage);
+  const description = product.description ?? productDescription(product, cfg);
 
   // JSON-LD Product schema (offers فقط لو السعر ظاهر — دايماً مخفي هنا)
   const jsonLd = {
@@ -170,7 +178,7 @@ export default async function ProductPage({
             <SectionHead eyebrow="Related" title="منتجات ذات صلة" />
             <div className="prods">
               {related.map((p) => (
-                <ProductCard key={p.id} product={p} />
+                <ProductCard key={p.id} product={p} waCfg={waCfg} />
               ))}
             </div>
           </section>

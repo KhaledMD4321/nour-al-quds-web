@@ -23,7 +23,30 @@ export const site = {
   waDefaultMessage: "السلام عليكم، أريد الاستفسار عن سعر وتوافر منتج.",
 } as const;
 
-/** يبني رابط واتساب مع رسالة مبدئية (اختياري إلحاق اسم/كود المنتج). */
+/**
+ * دوال نقية تُبنى على إعدادات ديناميكية (من الـ CMS) — تستخدمها المكوّنات التي
+ * تستقبل الإعدادات كـ props أو عبر getSiteConfig().
+ */
+export interface WaConfig {
+  number: string;
+  defaultMessage: string;
+}
+
+export function buildWaLink(whatsapp: string, message: string): string {
+  return `https://wa.me/${whatsapp}?text=${encodeURIComponent(message)}`;
+}
+
+export function buildWaProductMessage(
+  defaultMessage: string,
+  name: string,
+  code?: string | null,
+): string {
+  let msg = `${defaultMessage} ${name}`;
+  if (code) msg += ` (كود: ${code})`;
+  return msg;
+}
+
+/** يبني رابط واتساب بالإعدادات الثابتة — fallback للمواضع غير المتصلة بالـ CMS. */
 export function waLink(message?: string): string {
   const text = message ?? site.waDefaultMessage;
   return `https://wa.me/${site.whatsapp}?text=${encodeURIComponent(text)}`;

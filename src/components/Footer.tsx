@@ -2,8 +2,9 @@ import Link from "next/link";
 import { MapPin, Phone, Clock, Truck } from "lucide-react";
 import { WaIcon } from "./WaIcon";
 import { getBrands } from "@/lib/erp";
+import { getSiteConfig } from "@/lib/cms";
 import { brandHref } from "@/lib/urls";
-import { site, waLink } from "@/lib/site";
+import { buildWaLink } from "@/lib/site";
 
 const COMPANY_LINKS = [
   { label: "عن نور القدس", href: "/about" },
@@ -17,7 +18,8 @@ const COMPANY_LINKS = [
 ];
 
 export async function Footer() {
-  const brands = await getBrands();
+  const [brands, site] = await Promise.all([getBrands(), getSiteConfig()]);
+  const waLink = () => buildWaLink(site.whatsapp, site.waDefaultMessage);
   return (
     <footer className="ftr">
       <div className="wrap">

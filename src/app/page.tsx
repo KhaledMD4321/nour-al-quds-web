@@ -11,22 +11,27 @@ import {
   Store,
 } from "lucide-react";
 import { getCatalogByStage, getProducts } from "@/lib/erp";
+import { getHomeFaqs, getSiteConfig } from "@/lib/cms";
 import { STAGE_INTRO } from "@/lib/stages";
-import { HOME_FAQS } from "@/lib/faqs";
 import { ProductCard } from "@/components/ProductCard";
 import { CategoryTile } from "@/components/CategoryTile";
 import { SectionHead } from "@/components/SectionHead";
 import { WaIcon } from "@/components/WaIcon";
 import { brandHref, categoryHref } from "@/lib/urls";
-import { site, waLink } from "@/lib/site";
+import { buildWaLink } from "@/lib/site";
 
 export const revalidate = 300;
 
 export default async function HomePage() {
-  const [catalogByStage, { data: bestSellers }] = await Promise.all([
+  const [catalogByStage, { data: bestSellers }, homeFaqs, site] = await Promise.all([
     getCatalogByStage(),
     getProducts({ sort: "best_selling", per_page: 4 }),
+    getHomeFaqs(),
+    getSiteConfig(),
   ]);
+  const waLink = (message?: string) =>
+    buildWaLink(site.whatsapp, message ?? site.waDefaultMessage);
+  const waCfg = { number: site.whatsapp, defaultMessage: site.waDefaultMessage };
   const brands = catalogByStage.flatMap((s) => s.groups.map((g) => g.brand));
 
   return (
@@ -274,7 +279,7 @@ export default async function HomePage() {
         />
         <div className="prods">
           {bestSellers.map((p) => (
-            <ProductCard key={p.id} product={p} />
+            <ProductCard key={p.id} product={p} waCfg={waCfg} />
           ))}
         </div>
       </section>
@@ -338,7 +343,7 @@ export default async function HomePage() {
           }
         />
         <div className="faq faq--home">
-          {HOME_FAQS.map((f, i) => (
+          {homeFaqs.map((f, i) => (
             <details key={i} className="faq__item" open={i === 0}>
               <summary>{f.q}</summary>
               <p>{f.a}</p>

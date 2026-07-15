@@ -131,7 +131,7 @@ const ERP_TIMEOUT_MS = Number(process.env.ERP_API_TIMEOUT_MS ?? 5000);
  * degradation لطيف: الأعطال بتترمى (throw) — على صفحة مخزّنة بالـ ISR يخدم Next
  * النسخة القديمة تلقائياً؛ وعلى بداية باردة يمسكها حدّ الخطأ (app/error.tsx) فمفيش صفحة مكسورة.
  */
-async function erpFetch<T>(path: string, opts: { noStore?: boolean } = {}): Promise<T> {
+export async function erpFetch<T>(path: string, opts: { noStore?: boolean } = {}): Promise<T> {
   const base = process.env.ERP_API_URL;
   const token = process.env.ERP_API_TOKEN;
   if (!base || !token) {

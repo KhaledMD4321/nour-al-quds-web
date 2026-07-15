@@ -4,7 +4,7 @@ import { getCategory, getCategories, getAllProducts } from "@/lib/erp";
 import { parseIdFromParam, categoryHref, brandHref } from "@/lib/urls";
 import { Breadcrumb } from "@/components/Breadcrumb";
 import { CategoryBrowser } from "@/components/CategoryBrowser";
-import { site } from "@/lib/site";
+import { getSiteConfig } from "@/lib/cms";
 
 export const revalidate = 300;
 
@@ -48,7 +48,11 @@ export default async function CategoryPage({
   if (slug !== canonical) redirect(categoryHref(category));
 
   // كل منتجات الفئة تُرسَل للعميل ويتم فلترتها/ترتيبها هناك (الصفحة تبقى SSG)
-  const products = await getAllProducts({ category_id: id });
+  const [products, site] = await Promise.all([
+    getAllProducts({ category_id: id }),
+    getSiteConfig(),
+  ]);
+  const waCfg = { number: site.whatsapp, defaultMessage: site.waDefaultMessage };
 
   return (
     <main className="flex-1">
@@ -74,7 +78,7 @@ export default async function CategoryPage({
         </div>
 
         <div style={{ paddingBottom: 60 }}>
-          <CategoryBrowser products={products} />
+          <CategoryBrowser products={products} waCfg={waCfg} />
         </div>
       </div>
     </main>

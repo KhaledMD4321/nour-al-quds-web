@@ -6,7 +6,8 @@ import { usePathname } from "next/navigation";
 import { Phone, MapPin, Search, Menu, X, ChevronDown } from "lucide-react";
 import { WaIcon } from "./WaIcon";
 import { CatalogTree } from "./CatalogTree";
-import { site, waLink } from "@/lib/site";
+import { site as defaults, buildWaLink } from "@/lib/site";
+import type { SiteConfig } from "@/lib/cms";
 import type { StageGroup } from "@/lib/stages";
 
 function isActive(href: string, pathname: string): boolean {
@@ -15,7 +16,14 @@ function isActive(href: string, pathname: string): boolean {
   return false;
 }
 
-export function Header({ catalog }: { catalog: StageGroup[] }) {
+export function Header({
+  catalog,
+  site = defaults,
+}: {
+  catalog: StageGroup[];
+  site?: SiteConfig;
+}) {
+  const waLink = () => buildWaLink(site.whatsapp, site.waDefaultMessage);
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
 

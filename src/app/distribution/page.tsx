@@ -12,7 +12,8 @@ import {
 } from "lucide-react";
 import { Breadcrumb } from "@/components/Breadcrumb";
 import { WaIcon } from "@/components/WaIcon";
-import { site, waLink } from "@/lib/site";
+import { buildWaLink } from "@/lib/site";
+import { getSiteConfig } from "@/lib/cms";
 
 export const metadata: Metadata = {
   title: "التوزيع والجملة — للتجار والمقاولين والفنيين",
@@ -21,7 +22,9 @@ export const metadata: Metadata = {
   alternates: { canonical: "/distribution" },
 };
 
-export default function DistributionPage() {
+export default async function DistributionPage() {
+  const site = await getSiteConfig();
+  const waLink = (m?: string) => buildWaLink(site.whatsapp, m ?? site.waDefaultMessage);
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Service",

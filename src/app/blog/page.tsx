@@ -2,7 +2,9 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { CalendarDays, Clock, ArrowLeft } from "lucide-react";
 import { Breadcrumb } from "@/components/Breadcrumb";
-import { BLOG_POSTS } from "@/lib/blog";
+import { getBlogPosts } from "@/lib/cms";
+
+export const revalidate = 300;
 
 export const metadata: Metadata = {
   title: "المدونة — أدلة ونصائح السباكة",
@@ -11,7 +13,9 @@ export const metadata: Metadata = {
   alternates: { canonical: "/blog" },
 };
 
-export default function BlogIndexPage() {
+export default async function BlogIndexPage() {
+  const posts = await getBlogPosts();
+
   return (
     <main className="flex-1">
       <div className="wrap">
@@ -24,7 +28,7 @@ export default function BlogIndexPage() {
         </div>
 
         <div className="posts" style={{ paddingBottom: 60 }}>
-          {BLOG_POSTS.map((post) => (
+          {posts.map((post) => (
             <article key={post.slug} className="postcard">
               <div className="postcard__meta">
                 <span>

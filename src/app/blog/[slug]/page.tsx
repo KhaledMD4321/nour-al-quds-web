@@ -3,13 +3,16 @@ import type { Metadata } from "next";
 import { CalendarDays, Clock } from "lucide-react";
 import { Breadcrumb } from "@/components/Breadcrumb";
 import { WaIcon } from "@/components/WaIcon";
-import { BLOG_POSTS, getPost } from "@/lib/blog";
+import { getBlogPosts, getBlogPost } from "@/lib/cms";
 import { site, waLink } from "@/lib/site";
+
+export const revalidate = 300;
 
 type Params = { slug: string };
 
-export function generateStaticParams() {
-  return BLOG_POSTS.map((p) => ({ slug: p.slug }));
+export async function generateStaticParams() {
+  const posts = await getBlogPosts();
+  return posts.map((p) => ({ slug: p.slug }));
 }
 
 export async function generateMetadata({
@@ -18,7 +21,7 @@ export async function generateMetadata({
   params: Promise<Params>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const post = getPost(slug);
+  const post = await getBlogPost(slug);
   if (!post) return { title: "المقال غير موجود" };
   return {
     title: post.title,
@@ -33,7 +36,7 @@ export default async function BlogPostPage({
   params: Promise<Params>;
 }) {
   const { slug } = await params;
-  const post = getPost(slug);
+  const post = await getBlogPost(slug);
   if (!post) notFound();
 
   const jsonLd = {

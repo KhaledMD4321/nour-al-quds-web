@@ -5,7 +5,8 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { WhatsAppFab } from "@/components/WhatsAppFab";
 import { getCatalogByStage } from "@/lib/erp";
-import { site } from "@/lib/site";
+import { getSiteConfig } from "@/lib/cms";
+import { site, buildWaLink } from "@/lib/site";
 
 // Alexandria — النظام كله (عناوين + متن + واجهة)
 const alexandria = Alexandria({
@@ -33,13 +34,15 @@ const cairo = Cairo({
   display: "swap",
 });
 
-export const metadata: Metadata = {
+export async function generateMetadata(): Promise<Metadata> {
+  const cfg = await getSiteConfig();
+  return {
   metadataBase: new URL(site.url),
   title: {
     default: `${site.fullName}`,
     template: `%s | ${site.name}`,
   },
-  description: site.description,
+  description: cfg.description,
   keywords: [
     "نور القدس",
     "أدوات صحية",
@@ -57,17 +60,18 @@ export const metadata: Metadata = {
     locale: "ar_EG",
     siteName: site.name,
     title: site.fullName,
-    description: site.description,
+    description: cfg.description,
   },
   icons: { icon: "/favicon_256.png" },
-};
+  };
+}
 
 export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const catalog = await getCatalogByStage();
+  const [catalog, cfg] = await Promise.all([getCatalogByStage(), getSiteConfig()]);
 
   return (
     <html
@@ -76,10 +80,10 @@ export default async function RootLayout({
       className={`${alexandria.variable} ${kufam.variable} ${plexMono.variable} ${cairo.variable} h-full`}
     >
       <body className="min-h-full flex flex-col">
-        <Header catalog={catalog} />
+        <Header catalog={catalog} site={cfg} />
         {children}
         <Footer />
-        <WhatsAppFab />
+        <WhatsAppFab href={buildWaLink(cfg.whatsapp, cfg.waDefaultMessage)} />
       </body>
     </html>
   );

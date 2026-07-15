@@ -2,15 +2,21 @@ import type { Metadata } from "next";
 import { MapPin, Phone, Clock, Truck, Store, ExternalLink } from "lucide-react";
 import { Breadcrumb } from "@/components/Breadcrumb";
 import { WaIcon } from "@/components/WaIcon";
-import { site, waLink } from "@/lib/site";
+import { buildWaLink } from "@/lib/site";
+import { getSiteConfig } from "@/lib/cms";
 
-export const metadata: Metadata = {
-  title: "تواصل معنا — فرع الواسطى",
-  description: `تواصل مع نور القدس: فرعنا في ${site.location}، مواعيد العمل ${site.hours}، واتساب وهاتف، مع خدمة الشحن لكل محافظات مصر.`,
-  alternates: { canonical: "/contact" },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const site = await getSiteConfig();
+  return {
+    title: "تواصل معنا — فرع الواسطى",
+    description: `تواصل مع نور القدس: فرعنا في ${site.location}، مواعيد العمل ${site.hours}، واتساب وهاتف، مع خدمة الشحن لكل محافظات مصر.`,
+    alternates: { canonical: "/contact" },
+  };
+}
 
-export default function ContactPage() {
+export default async function ContactPage() {
+  const site = await getSiteConfig();
+  const waLink = (m?: string) => buildWaLink(site.whatsapp, m ?? site.waDefaultMessage);
   // LocalBusiness JSON-LD — بيانات الفرع للـ SEO المحلي
   const jsonLd = {
     "@context": "https://schema.org",

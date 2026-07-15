@@ -4,11 +4,19 @@ import { ProductImage } from "./ProductImage";
 import { Badge } from "./Badge";
 import { WaIcon } from "./WaIcon";
 import { productHref } from "@/lib/urls";
-import { waLink, waProductMessage } from "@/lib/site";
+import {
+  buildWaLink,
+  buildWaProductMessage,
+  waLink,
+  waProductMessage,
+  type WaConfig,
+} from "@/lib/site";
 
-export function ProductCard({ product }: { product: Product }) {
+export function ProductCard({ product, waCfg }: { product: Product; waCfg?: WaConfig }) {
   const href = productHref(product);
-  const wa = waLink(waProductMessage(product.name, product.code));
+  const wa = waCfg
+    ? buildWaLink(waCfg.number, buildWaProductMessage(waCfg.defaultMessage, product.name, product.code))
+    : waLink(waProductMessage(product.name, product.code));
 
   return (
     <div className="pcard">

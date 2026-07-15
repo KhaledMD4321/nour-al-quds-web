@@ -3,7 +3,8 @@ import Link from "next/link";
 import { BadgeCheck, Warehouse, Store, Truck, Handshake, ArrowLeft } from "lucide-react";
 import { Breadcrumb } from "@/components/Breadcrumb";
 import { WaIcon } from "@/components/WaIcon";
-import { site, waLink } from "@/lib/site";
+import { buildWaLink } from "@/lib/site";
+import { getSiteConfig } from "@/lib/cms";
 
 export const metadata: Metadata = {
   title: "عن نور القدس",
@@ -12,7 +13,9 @@ export const metadata: Metadata = {
   alternates: { canonical: "/about" },
 };
 
-export default function AboutPage() {
+export default async function AboutPage() {
+  const site = await getSiteConfig();
+  const waLink = (m?: string) => buildWaLink(site.whatsapp, m ?? site.waDefaultMessage);
   return (
     <main className="flex-1">
       <div className="wrap">

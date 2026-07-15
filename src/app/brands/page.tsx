@@ -2,11 +2,11 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowLeft, PackageCheck } from "lucide-react";
 import { getBrands } from "@/lib/erp";
-import { getBrandInfo } from "@/lib/brandInfo";
+import { getCmsBrandInfo, getSiteConfig } from "@/lib/cms";
 import { brandHref } from "@/lib/urls";
 import { Breadcrumb } from "@/components/Breadcrumb";
 import { WaIcon } from "@/components/WaIcon";
-import { site, waLink } from "@/lib/site";
+import { buildWaLink } from "@/lib/site";
 
 export const revalidate = 300;
 
@@ -18,7 +18,9 @@ export const metadata: Metadata = {
 };
 
 export default async function BrandsPage() {
-  const brands = await getBrands();
+  const [brands, site] = await Promise.all([getBrands(), getSiteConfig()]);
+  const infos = await Promise.all(brands.map((b) => getCmsBrandInfo(b.slug)));
+  const waLink = () => buildWaLink(site.whatsapp, site.waDefaultMessage);
 
   return (
     <main className="flex-1">
@@ -35,8 +37,8 @@ export default async function BrandsPage() {
         </div>
 
         <div className="brandgrid" style={{ paddingBottom: 40 }}>
-          {brands.map((b) => {
-            const info = getBrandInfo(b.slug);
+          {brands.map((b, i) => {
+            const info = infos[i];
             const isExclusive = b.name.includes("نصار");
             return (
               <Link key={b.id} className="brandcard" href={brandHref(b)}>
