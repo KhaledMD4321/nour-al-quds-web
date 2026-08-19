@@ -9,6 +9,9 @@ import {
   Handshake,
   FileText,
   ArrowLeft,
+  TrendingUp,
+  Lightbulb,
+  LifeBuoy,
 } from "lucide-react";
 import { Breadcrumb } from "@/components/Breadcrumb";
 import { WaIcon } from "@/components/WaIcon";
@@ -18,7 +21,7 @@ import { getSiteConfig } from "@/lib/cms";
 export const metadata: Metadata = {
   title: "التوزيع والجملة — للتجار والمقاولين والفنيين",
   description:
-    "خدمة توزيع أدوات السباكة بالجملة من نور القدس: توريد مباشر من المصانع (وكيل نصّار الحصري)، مخزون دائم 1500+ صنف، مراجعة مقايسات مجانية، وشحن لكل محافظات مصر.",
+    "خدمة توزيع أدوات السباكة بالجملة من نور القدس: توريد مباشر من المصانع (وكيل نصّار الحصري)، مخزون دائم 1500+ صنف، مراجعة مقايسات مجانية، وشراكة تجارية بتكبر مع نشاطك — مش مجرد فاتورة.",
   alternates: { canonical: "/distribution" },
 };
 
@@ -50,7 +53,8 @@ export default async function DistributionPage() {
           <h1>نور القدس للتوزيع — شريك التوريد اللي بتبني عليه</h1>
           <p>
             بنخدم التجار والمقاولين والفنيين من {site.location} لكل محافظات مصر منذ{" "}
-            {site.since} — توريد جملة تقدر تحسب عليه مواعيدك وهامش ربحك.
+            {site.since} — مش موزّع بتتعامل معاه مرة وخلاص، لكن شريك بيكبر معاك في كل
+            صفقة وبيحسب حساب نجاح شغلك زي ما بيحسب حساب فاتورته.
           </p>
         </div>
 
@@ -68,6 +72,49 @@ export default async function DistributionPage() {
               لمحلك أو موقعك في أي محافظة. ولو انت مقاول شغّال على مشروع، بنقدر نجدولّك
               التوريد على دفعات حسب مراحل التنفيذ.
             </p>
+          </section>
+
+          <section>
+            <h2>مش مجرد مورّد — إحنا شريكك في النمو</h2>
+            <p>
+              إحنا مش بس بنشحنلك بضاعة ونقفل الفاتورة. فلسفتنا من {site.since} إن نجاحنا
+              مربوط بنجاحك: كل ما محلك أو مشروعك يكبر، إحنا بنكبر معاك. ده معناه عملياً
+              إننا بننصحك بصراحة حتى لو النصيحة مش في صالح فاتورة اليوم، وبنبني معاك
+              علاقة تسهّل عليك التوسّع بدل ما تقف عندها.
+            </p>
+            <div className="about__units about__units--3">
+              <div className="about__unit">
+                <span className="benefit__ic"><TrendingUp aria-hidden="true" /></span>
+                <div>
+                  <b>حد ائتمان يكبر مع علاقتنا</b>
+                  <p>
+                    مش لازم تدفع كاش في كل طلبية. كل ما التعامل معانا يثبت ويكبر، نقدر
+                    نرتّبلك حد ائتمان يسهّل تدفقك النقدي — بدل ما تجمّد رأس مالك في
+                    مخزون واقف.
+                  </p>
+                </div>
+              </div>
+              <div className="about__unit">
+                <span className="benefit__ic"><Lightbulb aria-hidden="true" /></span>
+                <div>
+                  <b>نصيحة تجارية مش بيع بس</b>
+                  <p>
+                    بنقولك إيه اللي بيتحرك بسرعة في السوق عندك، عشان تشتري صح وتقلّب
+                    بضاعتك أسرع بدل ما تكدّس أصناف واقفة على الرف.
+                  </p>
+                </div>
+              </div>
+              <div className="about__unit">
+                <span className="benefit__ic"><LifeBuoy aria-hidden="true" /></span>
+                <div>
+                  <b>معاك وقت المشكلة برضه</b>
+                  <p>
+                    صنف نفد فجأة أو الفني طلب حاجة مش في الخطة؟ بندوّرلك على حل وبديل
+                    بنفس الجودة بدل ما نسيبك تقف — مش بس وقت البيع بنكون موجودين.
+                  </p>
+                </div>
+              </div>
+            </div>
           </section>
 
           <section>
@@ -138,7 +185,7 @@ export default async function DistributionPage() {
           <div className="post__cta">
             <div>
               <b>جرّبنا في طلبك الجاي</b>
-              <span>ابعت مقايستك أو استفسارك — بنرد بسعر اليوم والتوافر الفعلي.</span>
+              <span>مش هتكسب مورّد بس — هتكسب شريك بيهتم إن شغلك يكبر. ابعت مقايستك أو استفسارك وهنرد بسعر اليوم والتوافر الفعلي.</span>
             </div>
             <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
               <a className="btn btn--wa" href={waLink("السلام عليكم، معايا مقايسة/طلب جملة وحابب أعرف الأسعار والتوافر.")} target="_blank" rel="noopener noreferrer">
