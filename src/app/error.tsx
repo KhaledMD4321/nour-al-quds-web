@@ -21,7 +21,7 @@ export default function Error({
   }, [error]);
 
   return (
-    <main className="flex-1 wrap">
+    <main id="main" className="flex-1 wrap">
       <div className="empty" style={{ padding: "100px 20px" }}>
         <h3>حصلت مشكلة مؤقتة في تحميل البيانات</h3>
         <p>ممكن تعيد المحاولة، أو تتواصل معنا مباشرة على واتساب وهنساعدك فوراً.</p>

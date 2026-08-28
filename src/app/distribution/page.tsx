@@ -38,7 +38,7 @@ export default async function DistributionPage() {
   };
 
   return (
-    <main className="flex-1">
+    <main id="main" className="flex-1">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

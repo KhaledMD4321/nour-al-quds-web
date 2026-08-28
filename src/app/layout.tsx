@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Alexandria, Kufam, IBM_Plex_Mono, Cairo } from "next/font/google";
+import { Alexandria, IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
@@ -14,12 +14,6 @@ const alexandria = Alexandria({
   variable: "--font-alexandria",
   display: "swap",
 });
-// Kufam — اللوجو فقط (fallback حي)
-const kufam = Kufam({
-  subsets: ["arabic", "latin"],
-  variable: "--font-kufam",
-  display: "swap",
-});
 // IBM Plex Mono — الأكواد والأرقام
 const plexMono = IBM_Plex_Mono({
   subsets: ["latin"],
@@ -27,12 +21,9 @@ const plexMono = IBM_Plex_Mono({
   variable: "--font-plex-mono",
   display: "swap",
 });
-// Cairo — fallback (توافق مع الـ ERP)
-const cairo = Cairo({
-  subsets: ["arabic", "latin"],
-  variable: "--font-cairo",
-  display: "swap",
-});
+// ملاحظة: Kufam و Cairo كانا بيتحمّلا من غير أي استخدام فعلي —
+// اللوجو صورة مش نص، و Cairo مجرد اسم احتياطي في سلسلة الخطوط (مش محتاج تحميل).
+// حذفهما وفّر ~100KB من كل زيارة.
 
 export async function generateMetadata(): Promise<Metadata> {
   const cfg = await getSiteConfig();
@@ -77,9 +68,11 @@ export default async function RootLayout({
     <html
       lang="ar"
       dir="rtl"
-      className={`${alexandria.variable} ${kufam.variable} ${plexMono.variable} ${cairo.variable} h-full`}
+      className={`${alexandria.variable} ${plexMono.variable} h-full`}
     >
       <body className="min-h-full flex flex-col">
+        {/* أول عنصر يوصله الكيبورد — يتخطّى القائمة كلها للمحتوى مباشرة */}
+        <a className="skip-link" href="#main">تخطّي إلى المحتوى</a>
         <Header catalog={catalog} site={cfg} />
         {children}
         <Footer />

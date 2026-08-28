@@ -17,7 +17,7 @@ export default async function AboutPage() {
   const site = await getSiteConfig();
   const waLink = (m?: string) => buildWaLink(site.whatsapp, m ?? site.waDefaultMessage);
   return (
-    <main className="flex-1">
+    <main id="main" className="flex-1">
       <div className="wrap">
         <Breadcrumb items={[{ label: "الرئيسية", href: "/" }, { label: "عن نور القدس" }]} />
 

@@ -12,11 +12,14 @@
    Token variable names are preserved (canonical); only the
    underlying family strings point at self-optimized next/font.
    ============================================================ */
+/* ملاحظة مهمة: أي var() لمتغيّر غير معرّف بيبطّل سطر font-family بالكامل
+   (invalid at computed-value time) فالخط بيرجع للافتراضي. عشان كده لما اتشال
+   تحميل Kufam و Cairo من layout.tsx اتشالت إشاراتهما من هنا كمان. */
 :root {
-  --font-wordmark: var(--font-kufam), "Alexandria", system-ui, sans-serif;
-  --font-arabic: var(--font-alexandria), var(--font-cairo), "Segoe UI", Tahoma, sans-serif;
+  --font-wordmark: var(--font-alexandria), system-ui, sans-serif;
+  --font-arabic: var(--font-alexandria), "Segoe UI", Tahoma, sans-serif;
   --font-latin: var(--font-alexandria), system-ui, sans-serif;
-  --font-display: var(--font-alexandria), var(--font-kufam), system-ui, sans-serif;
+  --font-display: var(--font-alexandria), system-ui, sans-serif;
   --font-mono: var(--font-plex-mono), ui-monospace, "Courier New", monospace;
-  --font-ui: var(--font-alexandria), var(--font-cairo), system-ui, sans-serif;
+  --font-ui: var(--font-alexandria), system-ui, sans-serif;
 }

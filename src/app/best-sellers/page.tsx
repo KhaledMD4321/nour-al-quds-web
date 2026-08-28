@@ -25,7 +25,7 @@ export default async function BestSellersPage() {
   const waLink = () => buildWaLink(cfg.whatsapp, cfg.waDefaultMessage);
 
   return (
-    <main className="flex-1">
+    <main id="main" className="flex-1">
       <div className="wrap">
         <Breadcrumb
           items={[{ label: "الرئيسية", href: "/" }, { label: "الأكثر طلباً" }]}

@@ -23,7 +23,7 @@ export default async function BrandsPage() {
   const waLink = () => buildWaLink(site.whatsapp, site.waDefaultMessage);
 
   return (
-    <main className="flex-1">
+    <main id="main" className="flex-1">
       <div className="wrap">
         <Breadcrumb items={[{ label: "الرئيسية", href: "/" }, { label: "العلامات التجارية" }]} />
 

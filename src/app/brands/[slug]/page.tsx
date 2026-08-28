@@ -70,7 +70,7 @@ export default async function BrandPage({
   const waLink = () => buildWaLink(site.whatsapp, site.waDefaultMessage);
 
   return (
-    <main className="flex-1">
+    <main id="main" className="flex-1">
       <div className="wrap">
         <Breadcrumb
           items={[

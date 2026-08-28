@@ -35,7 +35,7 @@ export default async function HomePage() {
   const brands = catalogByStage.flatMap((s) => s.groups.map((g) => g.brand));
 
   return (
-    <main className="flex-1">
+    <main id="main" className="flex-1">
       {/* HERO */}
       <section className="hero">
         <div className="wrap hero__in">

@@ -4,7 +4,7 @@ import { waLink } from "@/lib/site";
 
 export default function NotFound() {
   return (
-    <main className="flex-1 wrap">
+    <main id="main" className="flex-1 wrap">
       <div className="empty" style={{ padding: "100px 20px" }}>
         <h3>الصفحة غير موجودة</h3>
         <p>ربما تغيّر الرابط أو أن الصفحة لم تعد متاحة.</p>

@@ -2,16 +2,24 @@
 
 import { useState } from "react";
 import { ProductTypeArt } from "./ProductTypeArt";
-import { detectProductType } from "@/lib/productType";
 
 /**
- * سلسلة صور المنتج (تجرَّب بالترتيب، وأي فشل ينتقل للتالي):
- *   1) image_url من الـ API
- *   2) صورة المنتج بالكود:  /img/{brandSlug}/{code}.webp
- *   3) صورة حقيقية بالنوع:  /img/types/{type}.webp   ← ارفع ~15 صورة تغطّي الكل
- *   4) رسمة توضيحية حسب النوع (دايماً كخلفية)
- * إضافة أي ملف صورة لاحقاً «تشتغل» أوتوماتيكياً بدون تغيير كود أو بيانات.
+ * صورة المنتج.
+ *
+ * الواقع الحالي: مفيش صور منتجات مرفوعة، والرسمة حسب النوع (كوع/ماسورة/تي…)
+ * هي العرض الأساسي مش بديل مؤقت. عشان كده مابنجرّبش مسارات صور تخمينية —
+ * كانت بتعمل طلبين فاشلين لكل كارت (48 طلب في صفحة بـ24 منتج) على راوت سيرفر
+ * بيقرأ من القرص، مقابل صفر فائدة.
+ *
+ * الترتيب دلوقتي:
+ *   1) image_url القادم من الـ ERP (جدول product_web_images) — لو اتضافت صورة
+ *      من لوحة التحكم بتظهر فوراً من غير أي تعديل كود.
+ *   2) resolver الملفات المحلية `/img/{brand}/{code}.webp` — اختياري، يتفعّل بـ
+ *      NEXT_PUBLIC_PRODUCT_IMAGE_RESOLVER=1 لما يبقى فيه ملفات في product-images/.
+ *   3) الرسمة حسب النوع (دايماً موجودة كخلفية).
  */
+const RESOLVER_ENABLED = process.env.NEXT_PUBLIC_PRODUCT_IMAGE_RESOLVER === "1";
+
 export function ProductImage({
   imageUrl,
   brandSlug,
@@ -23,11 +31,9 @@ export function ProductImage({
   code: string | null;
   name: string;
 }) {
-  const type = detectProductType(name);
   const candidates = [
     imageUrl,
-    brandSlug && code ? `/img/${brandSlug}/${code}.webp` : null,
-    `/img/types/${type}.webp`,
+    RESOLVER_ENABLED && brandSlug && code ? `/img/${brandSlug}/${code}.webp` : null,
   ].filter((x): x is string => Boolean(x));
 
   const [idx, setIdx] = useState(0);
