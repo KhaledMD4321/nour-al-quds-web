@@ -40,7 +40,7 @@ export function Header({
       {/* top bar */}
       <div className="topbar">
         <div className="wrap">
-          <span>{site.tagline}</span>
+          <span className="topbar__tagline">{site.tagline}</span>
           <span style={{ display: "flex", gap: 16, alignItems: "center" }}>
             <a href={`tel:${site.phone}`}>
               <Phone aria-hidden="true" />{" "}
