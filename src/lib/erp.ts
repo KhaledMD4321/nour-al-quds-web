@@ -131,6 +131,11 @@ const ERP_TIMEOUT_MS = Number(process.env.ERP_API_TIMEOUT_MS ?? 5000);
  * degradation لطيف: الأعطال بتترمى (throw) — على صفحة مخزّنة بالـ ISR يخدم Next
  * النسخة القديمة تلقائياً؛ وعلى بداية باردة يمسكها حدّ الخطأ (app/error.tsx) فمفيش صفحة مكسورة.
  */
+const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
+
+/** أقصى عدد محاولات عند 429 (حدّ المعدل) — البناء بيعمل دفعة طلبات كبيرة مرة واحدة. */
+const ERP_MAX_RETRIES = 4;
+
 export async function erpFetch<T>(path: string, opts: { noStore?: boolean } = {}): Promise<T> {
   const base = process.env.ERP_API_URL;
   const token = process.env.ERP_API_TOKEN;
@@ -138,23 +143,49 @@ export async function erpFetch<T>(path: string, opts: { noStore?: boolean } = {}
     throw new ErpError("ERP_API_URL / ERP_API_TOKEN غير مضبوطين (DATA_SOURCE=erp).");
   }
 
-  const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), ERP_TIMEOUT_MS);
-  try {
-    const res = await fetch(`${base.replace(/\/$/, "")}${path}`, {
-      headers: { Authorization: `Bearer ${token}`, Accept: "application/json" },
-      signal: controller.signal,
-      ...(opts.noStore
-        ? { cache: "no-store" as const }
-        : { next: { revalidate: REVALIDATE } }),
-    });
-    if (!res.ok) {
+  let lastError: ErpError | null = null;
+
+  for (let attempt = 0; attempt <= ERP_MAX_RETRIES; attempt++) {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), ERP_TIMEOUT_MS);
+    try {
+      const res = await fetch(`${base.replace(/\/$/, "")}${path}`, {
+        headers: { Authorization: `Bearer ${token}`, Accept: "application/json" },
+        signal: controller.signal,
+        ...(opts.noStore
+          ? { cache: "no-store" as const }
+          : { next: { revalidate: REVALIDATE } }),
+      });
+
+      if (res.ok) return (await res.json()) as T;
+
+      // 429 = تعدّينا حدّ المعدل. البناء بيولّد عشرات الصفحات فبيعمل دفعة طلبات
+      // كبيرة؛ ننتظر المدة اللي السيرفر بيطلبها (Retry-After) ونعيد المحاولة
+      // بدل ما البناء كله يفشل. 5xx كمان بتستاهل إعادة محاولة.
+      const retryable = res.status === 429 || res.status >= 500;
+      if (retryable && attempt < ERP_MAX_RETRIES) {
+        const hinted = Number(res.headers.get("retry-after"));
+        const waitMs = Number.isFinite(hinted) && hinted > 0
+          ? Math.min(hinted * 1000 + 500, 65_000)
+          : Math.min(2000 * 2 ** attempt, 30_000);
+        clearTimeout(timer);
+        await sleep(waitMs);
+        continue;
+      }
+
       throw new ErpError(`ERP API ${res.status} @ ${path}`, res.status);
+    } catch (e) {
+      // أعطال الشبكة/المهلة تستاهل إعادة محاولة كمان — عدا أخطاء الـ API النهائية
+      if (e instanceof ErpError) throw e;
+      lastError = new ErpError(`ERP API unreachable @ ${path}`, undefined);
+      if (attempt >= ERP_MAX_RETRIES) throw lastError;
+      await sleep(Math.min(1000 * 2 ** attempt, 15_000));
+    } finally {
+      clearTimeout(timer);
     }
-    return (await res.json()) as T;
-  } finally {
-    clearTimeout(timer);
   }
+
+  throw lastError ?? new ErpError(`ERP API failed @ ${path}`);
 }
 
 function buildQuery(params: ProductListParams): string {
