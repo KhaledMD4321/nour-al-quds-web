@@ -98,8 +98,10 @@ ln -sf /etc/nginx/sites-available/nour-al-quds-web /etc/nginx/sites-enabled/nour
 nginx -t && systemctl reload nginx
 
 echo ">>> [6/6] صلاحية إعادة تشغيل الخدمة وقت النشر (بدون باسورد، أوامر محدّدة فقط)..."
+# لاحظ الصيغة بمعاملات (*) — sudoers بيطابق الأمر بمعاملاته بالكامل، و deploy.sh
+# بينادي `systemctl status nour-web --no-pager -l` فبدون النجمة كان بيطلب باسورد.
 cat > /etc/sudoers.d/nour-web-deploy <<EOF
-${APP_USER} ALL=(root) NOPASSWD: /usr/bin/systemctl restart nour-web, /usr/bin/systemctl status nour-web
+${APP_USER} ALL=(root) NOPASSWD: /usr/bin/systemctl restart nour-web, /usr/bin/systemctl status nour-web, /usr/bin/systemctl status nour-web *
 EOF
 chmod 440 /etc/sudoers.d/nour-web-deploy
 
